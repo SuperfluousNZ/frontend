@@ -9,13 +9,18 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/SOFTENG761-2024/project-team-2.git"
+		"url": "https://github.com/Digraphy/frontend.git"
 	},
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "biome check --formatter-enabled=false .",
+		"lint:fix": "biome check --formatter-enabled=false --write .",
+		"format": "prettier --check --cache . --ignore-path .gitignore --ignore-path .prettierignore",
+		"format:fix": "prettier --write --cache . --ignore-path .gitignore --ignore-path .prettierignore",
+		"check": "pnpm format && pnpm lint",
+		"check:fix": "pnpm format:fix && pnpm lint:fix"
 	},
 	"dependencies": {
 		"next": "15.0.3",
