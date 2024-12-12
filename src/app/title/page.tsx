@@ -12,11 +12,11 @@ const PageContainer = styled.div`
 `;
 
 const TitleNameBlock = styled.div`
+	align-items: baseline;
 	display: flex;
 	flex-direction: row;
-	align-items: baseline;
-	justify-content: center;
 	gap: 1rem;
+	justify-content: center;
 
 	h1 {
 		font-size: 3rem;

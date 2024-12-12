@@ -1,10 +1,10 @@
 enum TitleTypeEnum {
-	Movie = 'movie',
-	TvSeries = 'tvSeries',
-	TvSeason = 'tvSeason',
-	TvEpisode = 'tvEpisode',
 	Book = 'book',
-	Game = 'game'
+	Game = 'game',
+	Movie = 'movie',
+	TvEpisode = 'tvEpisode',
+	TvSeason = 'tvSeason',
+	TvSeries = 'tvSeries',
 }
 
 export type TitleType = keyof typeof TitleTypeEnum;
