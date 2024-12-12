@@ -1,1 +1,1 @@
-export type { Title } from './title';
+export type { TitleDto } from './title';

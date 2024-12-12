@@ -1,6 +1,10 @@
-const titleTypeEnum = {
-	type: 'string',
-	enum: ['movie', 'tvSeries', 'tvSeason', 'tvEpisode', 'book', 'game'],
-};
+enum TitleTypeEnum {
+	Movie = 'movie',
+	TvSeries = 'tvSeries',
+	TvSeason = 'tvSeason',
+	TvEpisode = 'tvEpisode',
+	Book = 'book',
+	Game = 'game'
+}
 
-export type TitleType = keyof typeof titleTypeEnum;
+export type TitleType = keyof typeof TitleTypeEnum;

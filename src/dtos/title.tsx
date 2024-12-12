@@ -1,6 +1,6 @@
 import { TitleType } from "@/schemas/title";
 
-export interface Title {
+export interface TitleDto {
 	id: number;
 	name: string;
 	largePosterUrl?: string;
