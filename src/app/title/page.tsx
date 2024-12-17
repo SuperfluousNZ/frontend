@@ -168,7 +168,7 @@ const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 
 	return (
 		<DependencyOrderBlock>
-			<LeadPoster src={title.smallPosterUrl} alt={title.name} />
+			<LeadPoster src={title.largePosterUrl} alt={title.name} />
 			<DependencyTabs>
 				<DependencyTab titles={relationsMap.must} relevance="must" />
 				<DependencyTab titles={relationsMap.should} relevance="should" />
