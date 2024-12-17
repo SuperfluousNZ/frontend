@@ -7,7 +7,7 @@ const ButtonStyle = styled.button`
 	border: none;
 	color: white;
 	cursor: pointer;
-	font-size: 16px; // CHANGE THIS!!
+	font-size: 1rem;
 	padding-block: 0.75rem;
 	padding-inline: 0.75rem;
 	width: fit-content;

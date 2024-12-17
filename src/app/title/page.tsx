@@ -10,7 +10,7 @@ const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
-	margin-inline: 15rem;
+	margin-inline: 3rem;
 	align-items: center;
 `;
 
