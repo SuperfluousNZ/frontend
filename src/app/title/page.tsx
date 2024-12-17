@@ -3,7 +3,7 @@
 import styled from "styled-components";
 
 import { Button } from "@/components/atomic";
-import { TitleDto } from "@/dtos";
+import { DependencyOrderTitleDto, PreviewTitleDto } from "@/dtos/title";
 import { RelationRelevance } from "@/schemas";
 
 const PageContainer = styled.div`
@@ -99,7 +99,7 @@ const MiniPoster = styled(Poster)`
 `;
 
 interface DependencyOrderProps {
-	title: TitleDto;
+	title: DependencyOrderTitleDto;
 }
 
 function Buttons() {
@@ -113,7 +113,7 @@ function Buttons() {
 }
 
 interface DependencyTabProps {
-	titles: TitleDto[];
+	titles: PreviewTitleDto[];
 	relevance: RelationRelevance;
 }
 
@@ -133,7 +133,7 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 }
 
 const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
-	const relationsMap: Record<RelationRelevance, TitleDto[]> = {
+	const relationsMap: Record<RelationRelevance, PreviewTitleDto[]> = {
 		must: [],
 		should: [],
 		could: [],
@@ -170,7 +170,7 @@ const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 };
 
 export default function Title() {
-	const dummyTitle: TitleDto = {
+	const dummyTitle: DependencyOrderTitleDto = {
 		id: 0,
 		name: "The Avengers",
 		type: "movie",
@@ -228,7 +228,7 @@ export default function Title() {
 				relevance: "should",
 			},
 		],
-		sequences: [],
+		order: "relational",
 	};
 
 	return (

@@ -1,24 +1,32 @@
 import { RelationRelevance, TitleType } from "@/schemas/title";
 
-export interface TitleDto {
+export interface PreviewTitleDto {
 	id: number;
 	name: string;
-	largePosterUrl?: string;
 	smallPosterUrl?: string;
 	releasedAtUtc?: Date;
-	description?: string;
 	type: TitleType;
-	tmdbId?: number;
+}
 
-	relations?: {
-		title: TitleDto;
+export interface CommonTitleDto extends PreviewTitleDto {
+	largePosterUrl?: string;
+	description?: string;
+	tmdbId?: number;
+}
+
+export interface DependencyOrderTitleDto extends CommonTitleDto {
+	order: "relational";
+	relations: {
+		title: PreviewTitleDto;
 		relevance: RelationRelevance;
 	}[];
-
-	sequences?: {
-		// rename??
-		orderId: number;
-		previous?: TitleDto;
-		next?: TitleDto;
-	}[];
 }
+
+export interface SequentialOrderTitleDto extends CommonTitleDto {
+	order: "sequential";
+	orderId: number;
+	previous?: PreviewTitleDto;
+	next?: PreviewTitleDto;
+}
+
+export type TitleDto = DependencyOrderTitleDto | SequentialOrderTitleDto;
