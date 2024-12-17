@@ -134,6 +134,8 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 					alt={title.name}
 				/>
 			))}
+			{titles.length === 0 && <MiniPoster src="" alt="" />}
+			{/* ^^ Spacer in case the list is empty */}
 			<p>{relevance}</p>
 		</DependencyTabStyle>
 	);
@@ -210,7 +212,7 @@ export default function Title() {
 						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
 					releasedAtUtc: new Date("2010-05-07"),
 				},
-				relevance: "must",
+				relevance: "should",
 			},
 			{
 				title: {
