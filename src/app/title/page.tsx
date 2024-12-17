@@ -3,8 +3,11 @@
 import styled from "styled-components";
 
 import { Button } from "@/components/atomic";
-import { DependencyOrderTitleDto, PreviewTitleDto } from "@/dtos/title";
-import { RelationRelevance } from "@/schemas";
+import {
+	DependencyOrderTitleDto,
+	PreviewTitleDto,
+	RelationRelevance,
+} from "@/dtos/title";
 
 const PageContainer = styled.div`
 	display: flex;

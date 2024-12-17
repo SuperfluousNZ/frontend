@@ -1,4 +1,4 @@
-import { RelationRelevance, TitleType } from "@/schemas/title";
+import { ValuesOf } from ".";
 
 export interface PreviewTitleDto {
 	id: number;
@@ -30,3 +30,21 @@ export interface SequentialOrderTitleDto extends CommonTitleDto {
 }
 
 export type TitleDto = DependencyOrderTitleDto | SequentialOrderTitleDto;
+
+export const TitleType = {
+	Book: "book",
+	Game: "game",
+	Movie: "movie",
+	TvEpisode: "tvEpisode",
+	TvSeason: "tvSeason",
+	TvSeries: "tvSeries",
+} as const;
+
+export const RelationRelevanceEnum = {
+	Must: "must",
+	Should: "should",
+	Could: "could",
+} as const;
+
+export type TitleType = ValuesOf<typeof TitleType>;
+export type RelationRelevance = ValuesOf<typeof RelationRelevanceEnum>;
