@@ -10,6 +10,8 @@ const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
+	margin-inline: 15rem;
+	align-items: center;
 `;
 
 const TitleNameBlock = styled.div`
@@ -35,12 +37,14 @@ const DetailsBlock = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 3fr;
 	gap: 2rem;
+	max-width: 150rem;
 `;
 
 const DependencyOrderBlock = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 3fr;
 	gap: 2rem;
+	grid-template-columns: 1fr 3fr;
+	max-width: 150rem;
 `;
 
 const DependencyTabs = styled.div`
@@ -67,7 +71,7 @@ const DependencyTabStyle = styled.div`
 		font-size: 5rem;
 		font-weight: bold;
 		position: absolute;
-		right: 1rem;
+		right: 2rem;
 	}
 `;
 
@@ -85,12 +89,13 @@ const Poster = styled.img`
 `;
 
 const LeadPoster = styled(Poster)`
-	max-width: 100%;
 	margin-left: auto;
+	max-width: 100%;
 `;
 
 const MiniPoster = styled(Poster)`
-	height: 100px;
+	border-radius: 0.5rem;
+	height: 9rem;
 `;
 
 interface DependencyOrderProps {
@@ -185,7 +190,7 @@ export default function Title() {
 						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
 					releasedAtUtc: new Date("2010-05-07"),
 				},
-				relevance: "Should",
+				relevance: "Must",
 			},
 			{
 				title: {
