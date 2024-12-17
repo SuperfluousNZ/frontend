@@ -1,4 +1,4 @@
-import { TitleDto } from "./";
+import { TitleDto } from "./title";
 
 export interface CollectionDto {
 	id: number;

@@ -1,4 +1,4 @@
-import { TopicDto } from "./";
+import { TopicDto } from "./topic";
 
 export interface FactoidDto {
 	id: number;
