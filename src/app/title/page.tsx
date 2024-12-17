@@ -129,6 +129,9 @@ export default function Title() {
 		description:
 			"When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
 		tmdbId: 24428,
+		factoids: [],
+		relations: [],
+		sequences: [],
 	};
 
 	return (

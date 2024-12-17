@@ -1,1 +1,1 @@
-export type { TitleType } from './title';
+export type { TitleType, RelationRelevance } from './title';

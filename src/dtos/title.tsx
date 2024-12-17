@@ -1,4 +1,5 @@
-import { TitleType } from "@/schemas/title";
+import { RelationRelevance, TitleType } from "@/schemas/title";
+import { FactoidDto } from "./";
 
 export interface TitleDto {
 	id: number;
@@ -9,4 +10,17 @@ export interface TitleDto {
 	description?: string;
 	type: TitleType;
 	tmdbId?: number;
+	factoids: FactoidDto[];
+
+	relations: {
+		title: TitleDto;
+		relevance: RelationRelevance;
+	}[];
+
+	sequences: {
+		// rename??
+		orderId: number;
+		previous?: TitleDto;
+		next?: TitleDto;
+	}[];
 }
