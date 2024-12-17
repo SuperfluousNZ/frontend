@@ -1,17 +1,19 @@
-enum TitleTypeEnum {
-	Book = 'book',
-	Game = 'game',
-	Movie = 'movie',
-	TvEpisode = 'tvEpisode',
-	TvSeason = 'tvSeason',
-	TvSeries = 'tvSeries',
-}
+export type ValuesOf<T> = T[keyof T];
 
-enum RelationRelevanceEnum {
-	Must = 'must',
-	Should = 'should',
-	Could = 'could',
-}
+export const TitleType = {
+	Book: 'book',
+	Game: 'game',
+	Movie: 'movie',
+	TvEpisode: 'tvEpisode',
+	TvSeason: 'tvSeason',
+	TvSeries: 'tvSeries',
+} as const;
 
-export type TitleType = keyof typeof TitleTypeEnum;
-export type RelationRelevance = keyof typeof RelationRelevanceEnum;
+export const RelationRelevanceEnum = {
+	Must: 'must',
+	Should: 'should',
+	Could: 'could',
+} as const;
+
+export type TitleType = ValuesOf<typeof TitleType>;
+export type RelationRelevance = ValuesOf<typeof RelationRelevanceEnum>;
