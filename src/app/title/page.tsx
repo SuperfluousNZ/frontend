@@ -113,7 +113,12 @@ function Buttons() {
 	return (
 		<ButtonsList>
 			<Button onClick={() => {}}>Where to watch</Button>
-			<Button onClick={() => {}}>Mark as watched</Button>
+			<Button
+				onClick={() => {}}
+				icon={<span className="material-symbols-outlined">visibility</span>}
+			>
+				Mark as watched
+			</Button>
 			<Button onClick={() => {}}>Something else idk</Button>
 		</ButtonsList>
 	);

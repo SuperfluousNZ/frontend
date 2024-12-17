@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import StyledComponentsRegistry from "@/lib/registry";
+import { Head } from "next/document";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -26,6 +27,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<link
+					href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap"
+					rel="stylesheet"
+				/>
+			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
 			</body>
