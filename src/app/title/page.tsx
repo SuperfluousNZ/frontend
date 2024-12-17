@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { Button } from "@/components/atomic";
 import { TitleDto } from "@/dtos";
+import { RelationRelevance } from "@/schemas";
 
 const PageContainer = styled.div`
 	display: flex;
@@ -52,7 +53,11 @@ const DependencyTabs = styled.div`
 const DependencyTabStyle = styled.div`
 	background-color: rgba(255, 255, 255, 0.2);
 	border-radius: 1rem;
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
 	height: 100%;
+	max-height: 100%;
 	padding: 1rem;
 	position: relative;
 
@@ -77,8 +82,15 @@ const Description = styled.div``;
 
 const Poster = styled.img`
 	border-radius: 1rem;
+`;
+
+const LeadPoster = styled(Poster)`
 	max-width: 100%;
 	margin-left: auto;
+`;
+
+const MiniPoster = styled(Poster)`
+	height: 100px;
 `;
 
 interface DependencyOrderProps {
@@ -95,22 +107,45 @@ function Buttons() {
 	);
 }
 
-function DependencyTab() {
+interface DependencyTabProps {
+	titles: TitleDto[];
+	relevance: RelationRelevance;
+}
+
+function DependencyTab({ titles, relevance }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
-			<p>must</p>
+			{titles.map((title) => (
+				<MiniPoster
+					key={title.id}
+					src={title.smallPosterUrl}
+					alt={title.name}
+				/>
+			))}
+			<p>{relevance}</p>
 		</DependencyTabStyle>
 	);
 }
 
 const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
+	const relations = title.relations || [];
+	const must = relations
+		.filter((relation) => relation.relevance === "Must")
+		.map((relation) => relation.title);
+	const should = relations
+		.filter((relation) => relation.relevance === "Should")
+		.map((relation) => relation.title);
+	const could = relations
+		.filter((relation) => relation.relevance === "Could")
+		.map((relation) => relation.title);
+
 	return (
 		<DependencyOrderBlock>
-			<Poster src={title.smallPosterUrl} alt={title.name} />
+			<LeadPoster src={title.smallPosterUrl} alt={title.name} />
 			<DependencyTabs>
-				<DependencyTab />
-				<DependencyTab />
-				<DependencyTab />
+				<DependencyTab titles={must} relevance="Must" />
+				<DependencyTab titles={should} relevance="Should" />
+				<DependencyTab titles={could} relevance="Could" />
 			</DependencyTabs>
 		</DependencyOrderBlock>
 	);
@@ -129,7 +164,52 @@ export default function Title() {
 		description:
 			"When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
 		tmdbId: 24428,
-		relations: [],
+		relations: [
+			{
+				title: {
+					id: 1,
+					name: "The Incredible Hulk",
+					type: "Movie",
+					smallPosterUrl:
+						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg",
+					releasedAtUtc: new Date("2008-06-12"),
+				},
+				relevance: "Could",
+			},
+			{
+				title: {
+					id: 2,
+					name: "Iron Man 2",
+					type: "Movie",
+					smallPosterUrl:
+						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
+					releasedAtUtc: new Date("2010-05-07"),
+				},
+				relevance: "Should",
+			},
+			{
+				title: {
+					id: 3,
+					name: "Thor",
+					type: "Movie",
+					smallPosterUrl:
+						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+					releasedAtUtc: new Date("2011-05-06"),
+				},
+				relevance: "Should",
+			},
+			{
+				title: {
+					id: 4,
+					name: "Captain America: The First Avenger",
+					type: "Movie",
+					smallPosterUrl:
+						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+					releasedAtUtc: new Date("2011-07-22"),
+				},
+				relevance: "Should",
+			},
+		],
 		sequences: [],
 	};
 

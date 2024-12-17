@@ -10,12 +10,12 @@ export interface TitleDto {
 	type: TitleType;
 	tmdbId?: number;
 
-	relations: {
+	relations?: {
 		title: TitleDto;
 		relevance: RelationRelevance;
 	}[];
 
-	sequences: {
+	sequences?: {
 		// rename??
 		orderId: number;
 		previous?: TitleDto;
