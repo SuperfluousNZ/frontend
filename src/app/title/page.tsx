@@ -10,11 +10,11 @@ import {
 } from "@/dtos/title";
 
 const PageContainer = styled.div`
+	align-items: center;
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
 	margin-inline: 3rem;
-	align-items: center;
 `;
 
 const TitleNameBlock = styled.div`
@@ -38,8 +38,8 @@ const TitleNameBlock = styled.div`
 
 const DetailsBlock = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 3fr;
 	gap: 2rem;
+	grid-template-columns: 1fr 3fr;
 	max-width: 150rem;
 `;
 
@@ -85,7 +85,11 @@ const ButtonsList = styled.div`
 	gap: 0.5rem;
 `;
 
-const Description = styled.div``;
+const Description = styled.div`
+	color: #a6a6a6;
+	font-size: 1.2rem;
+	line-height: 1.5;
+`;
 
 const Poster = styled.img`
 	border-radius: 1rem;
