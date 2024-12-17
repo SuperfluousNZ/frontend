@@ -133,24 +133,37 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 }
 
 const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
+	const relationsMap: Record<RelationRelevance, TitleDto[]> = {
+		Must: [],
+		Should: [],
+		Could: [],
+	};
+
 	const relations = title.relations || [];
-	const must = relations
-		.filter((relation) => relation.relevance === "Must")
-		.map((relation) => relation.title);
-	const should = relations
-		.filter((relation) => relation.relevance === "Should")
-		.map((relation) => relation.title);
-	const could = relations
-		.filter((relation) => relation.relevance === "Could")
-		.map((relation) => relation.title);
+	relations.sort((a, b) => {
+		if (a.title.releasedAtUtc && b.title.releasedAtUtc) {
+			return a.title.releasedAtUtc.getTime() - b.title.releasedAtUtc.getTime();
+		}
+		if (a.title.releasedAtUtc) {
+			return -1;
+		}
+		if (b.title.releasedAtUtc) {
+			return 1;
+		}
+		return 0;
+	});
+
+	for (const relation of relations) {
+		relationsMap[relation.relevance].push(relation.title);
+	}
 
 	return (
 		<DependencyOrderBlock>
 			<LeadPoster src={title.smallPosterUrl} alt={title.name} />
 			<DependencyTabs>
-				<DependencyTab titles={must} relevance="Must" />
-				<DependencyTab titles={should} relevance="Should" />
-				<DependencyTab titles={could} relevance="Could" />
+				<DependencyTab titles={relationsMap.Must} relevance="Must" />
+				<DependencyTab titles={relationsMap.Should} relevance="Should" />
+				<DependencyTab titles={relationsMap.Could} relevance="Could" />
 			</DependencyTabs>
 		</DependencyOrderBlock>
 	);
