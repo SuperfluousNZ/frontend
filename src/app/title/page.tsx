@@ -47,7 +47,22 @@ const DependencyOrderBlock = styled.div`
 	display: grid;
 	gap: 2rem;
 	grid-template-columns: 1fr 3fr;
+	height: 40rem;
 	max-width: 150rem;
+	width: 100%;
+`;
+
+const DependencyPosterContainer = styled.div`
+	align-items: center;
+	contain: size;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	img {
+		height: 100%;
+		object-fit: contain;
+	}
 `;
 
 const DependencyTabs = styled.div`
@@ -173,7 +188,9 @@ const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 
 	return (
 		<DependencyOrderBlock>
-			<LeadPoster src={title.largePosterUrl} alt={title.name} />
+			<DependencyPosterContainer>
+				<LeadPoster src={title.largePosterUrl} alt={title.name} />
+			</DependencyPosterContainer>
 			<DependencyTabs>
 				<DependencyTab titles={relationsMap.must} relevance="must" />
 				<DependencyTab titles={relationsMap.should} relevance="should" />
