@@ -7,7 +7,9 @@ import {
 	DependencyOrderTitleDto,
 	PreviewTitleDto,
 	RelationRelevance,
+	SequentialOrderTitleDto,
 } from "@/dtos/title";
+import { useState } from "react";
 
 const PageContainer = styled.div`
 	align-items: center;
@@ -183,16 +185,37 @@ const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 	);
 };
 
+interface SequentialTabProps {
+	previous?: PreviewTitleDto;
+	next?: PreviewTitleDto;
+}
+
+const SequentialOrder: React.FC<SequentialTabProps> = ({ previous, next }) => {
+	return <></>;
+};
+
 export default function Title() {
-	const dummyTitle: DependencyOrderTitleDto = {
+	const [orderType, setOrderType] = useState<"sequential" | "relational">(
+		"relational",
+	);
+
+	function cycleOrderType() {
+		setOrderType(orderType === "sequential" ? "relational" : "sequential");
+	}
+
+	const dummyTitle: PreviewTitleDto = {
 		id: 0,
 		name: "The Avengers",
 		type: "movie",
-		largePosterUrl:
-			"https://image.tmdb.org/t/p/original/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
 		smallPosterUrl:
 			"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
 		releasedAtUtc: new Date("2012-04-25"),
+	};
+
+	const dummyTitleDependency: DependencyOrderTitleDto = {
+		...dummyTitle,
+		largePosterUrl:
+			"https://image.tmdb.org/t/p/original/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
 		description:
 			"When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
 		tmdbId: 24428,
@@ -245,16 +268,51 @@ export default function Title() {
 		order: "relational",
 	};
 
+	const dummyTitleSequential: SequentialOrderTitleDto = {
+		...dummyTitle,
+		largePosterUrl:
+			"https://image.tmdb.org/t/p/original/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+		description:
+			"When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
+		tmdbId: 24428,
+		order: "sequential",
+		orderId: 1,
+		previous: {
+			id: 4,
+			name: "Captain America: The First Avenger",
+			type: "movie",
+			smallPosterUrl:
+				"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+			releasedAtUtc: new Date("2011-07-22"),
+		},
+		next: {
+			id: 5,
+			name: "Iron Man 3",
+			type: "movie",
+			smallPosterUrl:
+				"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1Jj7Frjjbewb6Q6dl6YXhL3kuvB.jpg",
+			releasedAtUtc: new Date("2013-04-18"),
+		},
+	};
+
 	return (
 		<PageContainer>
 			<TitleNameBlock>
-				<h1>{dummyTitle.name}</h1>
-				<h2>{dummyTitle.releasedAtUtc?.getFullYear()}</h2>
+				<h1>{dummyTitleDependency.name}</h1>
+				<h2>{dummyTitleDependency.releasedAtUtc?.getFullYear()}</h2>
+				<Button onClick={() => cycleOrderType()}>🔄️</Button>
+				{/* temporary ^^ */}
 			</TitleNameBlock>
-			<DependencyOrder title={dummyTitle} />
+			{orderType === "sequential" ?
+				<SequentialOrder
+					previous={dummyTitleSequential.previous}
+					next={dummyTitleSequential.next}
+				/>
+			:	<DependencyOrder title={dummyTitleDependency} />}
+
 			<DetailsBlock>
 				<Buttons />
-				<Description>{dummyTitle.description}</Description>
+				<Description>{dummyTitleDependency.description}</Description>
 			</DetailsBlock>
 		</PageContainer>
 	);
