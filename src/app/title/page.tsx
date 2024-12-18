@@ -85,7 +85,7 @@ const SequentialOrderBlock = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 8rem;
-	height: 50rem;
+	height: 40rem;
 	max-width: 150rem;
 `;
 
