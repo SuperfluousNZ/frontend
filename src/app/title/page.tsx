@@ -69,7 +69,9 @@ const DependencyTabs = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
-	height: 100%;
+	height: inherit;
+	justify-content: space-between;
+	align-items: stretch;
 `;
 
 const DependencyTabStyle = styled.div`
@@ -77,9 +79,10 @@ const DependencyTabStyle = styled.div`
 	border-radius: 1rem;
 	display: flex;
 	flex-direction: row;
+	flex: 1;
 	gap: 1rem;
 	height: 100%;
-	max-height: 100%;
+	overflow: hidden;
 	padding: 1rem;
 	position: relative;
 
@@ -117,7 +120,8 @@ const LeadPoster = styled(Poster)`
 
 const MiniPoster = styled(Poster)`
 	border-radius: 0.5rem;
-	height: 9rem;
+	height: 100%;
+	object-fit: contain;
 `;
 
 interface DependencyOrderProps {
