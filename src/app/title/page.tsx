@@ -8,6 +8,8 @@ import {
 	PreviewTitleDto,
 	RelationRelevance,
 } from "@/dtos/title";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PageContainer = styled.div`
 	align-items: center;
@@ -139,10 +141,7 @@ function Buttons() {
 	return (
 		<ButtonsList>
 			<Button onClick={() => {}}>Where to watch</Button>
-			<Button
-				onClick={() => {}}
-				icon={<span className="material-symbols-outlined">visibility</span>}
-			>
+			<Button onClick={() => {}} icon={<FontAwesomeIcon icon={faEye} />}>
 				Mark as watched
 			</Button>
 			<Button onClick={() => {}}>Something else idk</Button>
