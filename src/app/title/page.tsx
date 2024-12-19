@@ -300,9 +300,9 @@ export default function Title() {
 		"relational",
 	);
 
-	function cycleOrderType() {
+	const cycleOrderType = () => {
 		setOrderType(orderType === "sequential" ? "relational" : "sequential");
-	}
+	};
 
 	const dummyTitle: PreviewTitleDto = {
 		id: 0,
