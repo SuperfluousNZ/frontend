@@ -116,10 +116,10 @@ const SequentialOrderBlock = styled.div`
 const SequentialItem = styled.div`
 	align-items: center;
 	display: flex;
-	height: 100%;
-	justify-content: center;
 	flex-direction: column;
 	gap: 1rem;
+	height: 100%;
+	justify-content: center;
 
 	img {
 		max-height: 100%;
