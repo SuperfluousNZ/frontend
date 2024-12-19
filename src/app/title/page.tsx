@@ -122,7 +122,7 @@ const SequentialItem = styled.div`
 	gap: 1rem;
 
 	img {
-		height: 100%;
+		max-height: 100%;
 		object-fit: contain;
 	}
 
@@ -142,7 +142,6 @@ const SequentialItem = styled.div`
 const SequentialAdjacent = styled(SequentialItem).withConfig({
 	shouldForwardProp: (prop) => prop !== "alignRight",
 })<{ alignRight?: boolean }>`
-	height: 50%;
 	${({ alignRight }) =>
 		alignRight ?
 			css`
@@ -151,6 +150,10 @@ const SequentialAdjacent = styled(SequentialItem).withConfig({
 		:	css`
 				margin-right: auto;
 			`};
+
+	img {
+		max-height: 50%;
+	}
 `;
 
 const ButtonsList = styled.div`
