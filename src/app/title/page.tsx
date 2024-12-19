@@ -96,6 +96,12 @@ const DependencyTabStyle = styled.div`
 	}
 `;
 
+const DependencyTabPosterContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+`;
+
 const ButtonsList = styled.div`
 	align-items: flex-end;
 	display: flex;
@@ -122,6 +128,7 @@ const MiniPoster = styled(Poster)`
 	border-radius: 0.5rem;
 	height: 100%;
 	object-fit: contain;
+	width: 100%;
 `;
 
 interface DependencyOrderProps {
@@ -152,13 +159,11 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
 			{titles.map((title) => (
-				<MiniPoster
-					key={title.id}
-					src={title.smallPosterUrl}
-					alt={title.name}
-				/>
+				<DependencyTabPosterContainer key={title.id}>
+					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
+				</DependencyTabPosterContainer>
 			))}
-			{titles.length === 0 && <MiniPoster src="" alt="" />}
+			{titles.length === 0 && <DependencyTabPosterContainer />}
 			{/* ^^ Spacer in case the list is empty */}
 			<p>{relevance}</p>
 		</DependencyTabStyle>
