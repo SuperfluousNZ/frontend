@@ -139,11 +139,9 @@ const SequentialItem = styled.div`
 	}
 `;
 
-const SequentialAdjacent = styled(SequentialItem).withConfig({
-	shouldForwardProp: (prop) => prop !== "alignRight",
-})<{ alignRight?: boolean }>`
-	${({ alignRight }) =>
-		alignRight ?
+const SequentialAdjacent = styled(SequentialItem)<{ $alignRight?: boolean }>`
+	${({ $alignRight }) =>
+		$alignRight ?
 			css`
 				margin-left: auto;
 			`
@@ -272,7 +270,7 @@ const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 
 	return (
 		<SequentialOrderBlock>
-			<SequentialAdjacent alignRight={true}>
+			<SequentialAdjacent $alignRight={true}>
 				{previous && (
 					<>
 						<h2>previous</h2>
@@ -284,7 +282,7 @@ const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 			<SequentialItem>
 				<LeadPoster src={title.largePosterUrl} alt={title.name} />
 			</SequentialItem>
-			<SequentialAdjacent alignRight={false}>
+			<SequentialAdjacent $alignRight={false}>
 				{next && (
 					<>
 						<h2>next</h2>
