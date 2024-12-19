@@ -1,4 +1,4 @@
-import { ValuesOf } from ".";
+import { ValuesOf } from "@/util";
 
 export interface PreviewTitleDto {
 	id: number;

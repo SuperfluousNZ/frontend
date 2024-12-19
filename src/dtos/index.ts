@@ -4,5 +4,3 @@ export type { FactoidDto } from './factoid';
 export type { OrderDto } from './order';
 export type { TitleDto, PreviewTitleDto, CommonTitleDto, DependencyOrderTitleDto as RelationalOrderTitleDto, SequentialOrderTitleDto } from './title';
 export type { TopicDto } from './topic';
-
-export type ValuesOf<T> = T[keyof T];
