@@ -39,16 +39,16 @@ const TitleNameBlock = styled.div`
 const DetailsBlock = styled.div`
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 1fr 3fr;
-	max-width: 150rem;
+	grid-template-columns: 2fr 5fr;
+	max-width: 75rem;
 `;
 
 const DependencyOrderBlock = styled.div`
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 1fr 3fr;
-	height: 40rem;
-	max-width: 150rem;
+	grid-template-columns: 2fr 5fr;
+	height: 30rem;
+	max-width: 75rem;
 	width: 100%;
 `;
 
