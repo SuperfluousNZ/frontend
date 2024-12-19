@@ -2,10 +2,12 @@
 
 import {
 	CommonTitleDto,
+	DependencyOrderTitleDto,
 	PreviewTitleDto,
 	Relation,
 	RelationRelevance,
 	Sequence,
+	SequentialOrderTitleDto,
 	TitleDto,
 } from "@/dtos";
 import { createContext, useCallback, useContext, useState } from "react";
@@ -99,12 +101,10 @@ const dummySequences: {
 };
 
 interface TitleContextType {
-	orderId?: number | null;
 	title: CommonTitleDto;
-	setOrderId?: (orderId: number | null) => void;
 	setTitle: (titleId: TitleDto["id"]) => void;
-	getRelations: () => Promise<Relation[]>;
-	getSequences: (orderId: number) => Promise<Sequence>;
+	getRelations: () => Promise<DependencyOrderTitleDto>;
+	getSequences: (orderId: number) => Promise<SequentialOrderTitleDto>;
 }
 
 export const TitleContext = createContext<TitleContextType>({
@@ -114,8 +114,22 @@ export const TitleContext = createContext<TitleContextType>({
 		type: "movie",
 	},
 	setTitle: () => {},
-	getRelations: async () => [],
-	getSequences: async () => ({}),
+	getRelations: async () => ({
+		id: -1,
+		name: "",
+		type: "movie",
+		order: "relational",
+		relations: [],
+	}),
+	getSequences: async () => ({
+		id: -1,
+		name: "",
+		type: "movie",
+		order: "sequential",
+		orderId: -1,
+		previous: undefined,
+		next: undefined,
+	}),
 });
 
 export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
@@ -124,8 +138,6 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		name: "",
 		type: "movie",
 	});
-
-	const [orderId, setOrderId] = useState<number | null>(null);
 
 	const [relations, setRelations] = useState<Relation[] | null>(null);
 
@@ -145,7 +157,9 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		[],
 	);
 
-	const getRelations = useCallback(async () => {
+	const getRelations = useCallback<
+		TitleContextType["getRelations"]
+	>(async () => {
 		if (relations === null) {
 			// const response = await fetch(`/api/relations/${title.id}`);
 			// const fetchedRelations = (await response.json()) as {
@@ -155,10 +169,14 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			const fetchedRelations = dummyRelations; // placeholder
 			setRelations(fetchedRelations);
 		}
-		return relations ?? [];
-	}, [relations]);
+		return {
+			...title,
+			order: "relational",
+			relations: relations ?? [],
+		};
+	}, [title, relations]);
 
-	const getSequences = useCallback(
+	const getSequences = useCallback<TitleContextType["getSequences"]>(
 		async (orderId: number) => {
 			if (!sequences[orderId]) {
 				// const response = await fetch(`/api/sequences/${title.id}?orderId=${orderId}`);
@@ -172,9 +190,15 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 					[orderId]: fetchedSequences,
 				}));
 			}
-			return sequences[orderId] ?? {};
+			return {
+				...title,
+				order: "sequential",
+				orderId,
+				previous: sequences[orderId]?.previous,
+				next: sequences[orderId]?.next,
+			};
 		},
-		[sequences],
+		[title, sequences],
 	);
 
 	return (
@@ -182,8 +206,6 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			value={{
 				title,
 				setTitle: setTitleById,
-				orderId,
-				setOrderId,
 				getRelations,
 				getSequences,
 			}}
