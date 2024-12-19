@@ -60,7 +60,7 @@ const DependencyPosterContainer = styled.div`
 	justify-content: center;
 
 	img {
-		height: 100%;
+		max-height: 100%;
 		object-fit: contain;
 	}
 `;
