@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Button } from "@/components/atomic";
 import {
@@ -139,9 +139,18 @@ const SequentialItem = styled.div`
 	}
 `;
 
-const SequentialAdjacent = styled(SequentialItem)<{ alignRight?: boolean }>`
+const SequentialAdjacent = styled(SequentialItem).withConfig({
+	shouldForwardProp: (prop) => prop !== "alignRight",
+})<{ alignRight?: boolean }>`
 	height: 50%;
-	${({ alignRight }) => (alignRight ? "margin-left" : "margin-right")}: auto;
+	${({ alignRight }) =>
+		alignRight ?
+			css`
+				margin-left: auto;
+			`
+		:	css`
+				margin-right: auto;
+			`};
 `;
 
 const ButtonsList = styled.div`
