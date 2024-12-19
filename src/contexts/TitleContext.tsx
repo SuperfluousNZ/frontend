@@ -141,10 +141,8 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const [relations, setRelations] = useState<Relation[] | null>(null);
 
-	const [sequences, setSequences] = useState<{
-		// -1 = release order
-		[orderId: number]: Sequence;
-	}>({});
+	// An orderId of -1 is reserved for the release order
+	const [sequences, setSequences] = useState<Record<number, Sequence>>({});
 
 	const setTitleById = useCallback<TitleContextType["setTitle"]>(
 		// biome-ignore lint/correctness/noUnusedVariables: TODO: implement
