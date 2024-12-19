@@ -10,6 +10,8 @@ import {
 	RelationRelevance,
 	SequentialOrderTitleDto,
 } from "@/dtos/title";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 const PageContainer = styled.div`
@@ -42,16 +44,16 @@ const TitleNameBlock = styled.div`
 const DetailsBlock = styled.div`
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 1fr 3fr;
-	max-width: 150rem;
+	grid-template-columns: 2fr 5fr;
+	max-width: 75rem;
 `;
 
 const DependencyOrderBlock = styled.div`
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 1fr 3fr;
-	height: 40rem;
-	max-width: 150rem;
+	grid-template-columns: 2fr 5fr;
+	height: 30rem;
+	max-width: 75rem;
 	width: 100%;
 `;
 
@@ -110,17 +112,17 @@ const SequentialOrderBlock = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 8rem;
-	height: 40rem;
+	height: 30rem;
 	max-width: 150rem;
 `;
 
 const SequentialItem = styled.div`
 	align-items: center;
 	display: flex;
-	height: 100%;
-	justify-content: center;
 	flex-direction: column;
 	gap: 1rem;
+	height: 100%;
+	justify-content: center;
 
 	img {
 		max-height: 100%;
@@ -140,11 +142,9 @@ const SequentialItem = styled.div`
 	}
 `;
 
-const SequentialAdjacent = styled(SequentialItem).withConfig({
-	shouldForwardProp: (prop) => prop !== "alignRight",
-})<{ alignRight?: boolean }>`
-	${({ alignRight }) =>
-		alignRight ?
+const SequentialAdjacent = styled(SequentialItem)<{ $alignRight?: boolean }>`
+	${({ $alignRight }) =>
+		$alignRight ?
 			css`
 				margin-left: auto;
 			`
@@ -194,10 +194,7 @@ function Buttons() {
 	return (
 		<ButtonsList>
 			<Button onClick={() => {}}>Where to watch</Button>
-			<Button
-				onClick={() => {}}
-				icon={<span className="material-symbols-outlined">visibility</span>}
-			>
+			<Button onClick={() => {}} icon={<FontAwesomeIcon icon={faEye} />}>
 				Mark as watched
 			</Button>
 			<Button onClick={() => {}}>Something else idk</Button>
@@ -273,7 +270,7 @@ const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 
 	return (
 		<SequentialOrderBlock>
-			<SequentialAdjacent alignRight={true}>
+			<SequentialAdjacent $alignRight={true}>
 				{previous && (
 					<>
 						<h2>previous</h2>
@@ -285,7 +282,7 @@ const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 			<SequentialItem>
 				<LeadPoster src={title.largePosterUrl} alt={title.name} />
 			</SequentialItem>
-			<SequentialAdjacent alignRight={false}>
+			<SequentialAdjacent $alignRight={false}>
 				{next && (
 					<>
 						<h2>next</h2>
@@ -303,9 +300,9 @@ export default function Title() {
 		"relational",
 	);
 
-	function cycleOrderType() {
+	const cycleOrderType = () => {
 		setOrderType(orderType === "sequential" ? "relational" : "sequential");
-	}
+	};
 
 	const { title, setTitle, getRelations, getSequences } = useTitleContext();
 	const [sequentialTitle, setSequentialTitle] =
