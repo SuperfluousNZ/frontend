@@ -5,7 +5,6 @@ import {
 	DependencyOrderTitleDto,
 	PreviewTitleDto,
 	Relation,
-	RelationRelevance,
 	Sequence,
 	SequentialOrderTitleDto,
 	TitleDto,
@@ -69,10 +68,7 @@ const dummyFilms: { [id: number]: PreviewTitleDto } = {
 	},
 };
 
-const dummyRelations: {
-	title: PreviewTitleDto;
-	relevance: RelationRelevance;
-}[] = [
+const dummyRelations: Relation[] = [
 	{
 		title: dummyFilms[1],
 		relevance: "could",
@@ -91,9 +87,7 @@ const dummyRelations: {
 	},
 ];
 
-const dummySequences: {
-	[orderId: number]: Sequence;
-} = {
+const dummySequences: Record<number, Sequence> = {
 	[-1]: {
 		previous: dummyFilms[4],
 		next: dummyFilms[5],
@@ -147,7 +141,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 	const setTitleById = useCallback<TitleContextType["setTitle"]>(
 		// biome-ignore lint/correctness/noUnusedVariables: TODO: implement
 		async (titleId: TitleDto["id"]) => {
-			// const response = await fetch(`/api/title/${titleId}`);
+			// const response = await fetch(`/api/...`);
 			// const title = (await response.json()) as CommonTitleDto;
 			const title = dummyTitle;
 			setTitle(title);
@@ -159,11 +153,8 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		TitleContextType["getRelations"]
 	>(async () => {
 		if (relations === null) {
-			// const response = await fetch(`/api/relations/${title.id}`);
-			// const fetchedRelations = (await response.json()) as {
-			// 	title: PreviewTitleDto;
-			// 	relevance: RelationRelevance;
-			// }[];
+			// const response = await fetch(`/api/...`);
+			// const fetchedRelations = (await response.json()) as Relevance[];
 			const fetchedRelations = dummyRelations; // placeholder
 			setRelations(fetchedRelations);
 		}
@@ -177,11 +168,8 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 	const getSequences = useCallback<TitleContextType["getSequences"]>(
 		async (orderId = -1) => {
 			if (!sequences[orderId]) {
-				// const response = await fetch(`/api/sequences/${title.id}?orderId=${orderId}`);
-				// const fetchedSequences = (await response.json()) as {
-				// 	previous?: PreviewTitleDto;
-				// 	next?: PreviewTitleDto;
-				// };
+				// const response = await fetch(`/api/...`);
+				// const fetchedSequences = (await response.json()) as Sequence;
 				const fetchedSequences = dummySequences[-1]; // placeholder
 				setSequences((prevSequences) => ({
 					...prevSequences,
