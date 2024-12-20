@@ -146,6 +146,9 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		TitleContextType["getRelations"]
 	>(async () => {
 		if (relations === null) {
+			setRelations(null);
+			setSequences({});
+
 			// const response = await fetch(`/api/...`);
 			// const fetchedRelations = (await response.json()) as Relevance[];
 			const fetchedRelations = dummyRelations; // placeholder
