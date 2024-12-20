@@ -101,24 +101,22 @@ interface TitleContextType {
 	getSequences: (orderId?: number) => Promise<SequentialOrderTitleDto>;
 }
 
+const placeholderTitle: CommonTitleDto = {
+	id: -1,
+	name: "",
+	type: "movie",
+};
+
 export const TitleContext = createContext<TitleContextType>({
-	title: {
-		id: -1,
-		name: "",
-		type: "movie",
-	},
+	title: placeholderTitle,
 	setTitle: () => {},
 	getRelations: async () => ({
-		id: -1,
-		name: "",
-		type: "movie",
+		...placeholderTitle,
 		order: "relational",
 		relations: [],
 	}),
 	getSequences: async () => ({
-		id: -1,
-		name: "",
-		type: "movie",
+		...placeholderTitle,
 		order: "sequential",
 		orderId: -1,
 		previous: undefined,
@@ -127,14 +125,9 @@ export const TitleContext = createContext<TitleContextType>({
 });
 
 export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
-	const [title, setTitle] = useState<CommonTitleDto>({
-		id: -1,
-		name: "",
-		type: "movie",
-	});
+	const [title, setTitle] = useState<CommonTitleDto>(placeholderTitle);
 
 	const [relations, setRelations] = useState<Relation[] | null>(null);
-
 	// An orderId of -1 is reserved for the release order
 	const [sequences, setSequences] = useState<Record<number, Sequence>>({});
 
