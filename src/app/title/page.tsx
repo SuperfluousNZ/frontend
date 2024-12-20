@@ -316,7 +316,8 @@ export default function Title() {
 
 	useEffect(() => {
 		if (orderType === "sequential") {
-			getSequences(-1).then(setSequentialTitle);
+			getSequences().then(setSequentialTitle);
+			// pass an orderId into getSequences for a specific order, otherwise it defaults to -1 (release order)
 		} else if (orderType === "relational") {
 			getRelations().then(setRelationalTitle);
 		}

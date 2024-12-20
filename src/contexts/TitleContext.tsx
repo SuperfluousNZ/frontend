@@ -104,7 +104,7 @@ interface TitleContextType {
 	title: CommonTitleDto;
 	setTitle: (titleId: TitleDto["id"]) => void;
 	getRelations: () => Promise<DependencyOrderTitleDto>;
-	getSequences: (orderId: number) => Promise<SequentialOrderTitleDto>;
+	getSequences: (orderId?: number) => Promise<SequentialOrderTitleDto>;
 }
 
 export const TitleContext = createContext<TitleContextType>({
@@ -175,7 +175,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [title, relations]);
 
 	const getSequences = useCallback<TitleContextType["getSequences"]>(
-		async (orderId: number) => {
+		async (orderId = -1) => {
 			if (!sequences[orderId]) {
 				// const response = await fetch(`/api/sequences/${title.id}?orderId=${orderId}`);
 				// const fetchedSequences = (await response.json()) as {
