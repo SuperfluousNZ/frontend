@@ -1,6 +1,8 @@
 "use client";
 
 import { MiniPoster, Poster } from "@/components/title-page-components";
+import { dummyFilms } from "@/contexts/TitleContext";
+import { CommonTitleDto, PreviewTitleDto } from "@/dtos";
 import styled from "styled-components";
 
 const PageContainer = styled.div`
@@ -47,26 +49,26 @@ const CardContainer = styled.div`
 	grid-template-columns: repeat(3, 1fr);
 `;
 
-function Card() {
+interface CardProps {
+	title: PreviewTitleDto;
+}
+
+const Card: React.FC<CardProps> = ({ title }) => {
 	return (
 		<CardStyle>
 			<p>
 				Tony Stark is Iron Man - genius, billionaire, playboy, philanthropist.
 			</p>
 			<CardFooter>
-				<MiniPoster
-					src={
-						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg"
-					}
-					alt={"Poster"}
-				/>
+				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
-					<b>Iron Man</b> (2008)
+					{title.name} (
+					{title.releasedAtUtc ? title.releasedAtUtc.getFullYear() : "XXXX"})
 				</p>
 			</CardFooter>
 		</CardStyle>
 	);
-}
+};
 
 export default function Summary() {
 	return (
@@ -87,9 +89,9 @@ export default function Summary() {
 				/>
 			</HeaderBox>
 			<CardContainer>
-				<Card />
-				<Card />
-				<Card />
+				<Card title={dummyFilms[1]} />
+				<Card title={dummyFilms[2]} />
+				<Card title={dummyFilms[3]} />
 			</CardContainer>
 		</PageContainer>
 	);
