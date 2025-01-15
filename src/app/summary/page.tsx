@@ -22,13 +22,13 @@ const HeaderBox = styled.div`
 `;
 
 const CardStyle = styled.div`
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 1rem;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	background-color: rgba(255, 255, 255, 0.1);
-	border-radius: 1rem;
-	padding: 1rem;
 	max-width: 100%;
+	padding: 1rem;
 `;
 
 const CardFooter = styled.div`
