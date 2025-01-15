@@ -25,7 +25,7 @@ const CardStyle = styled.div`
 	background-color: rgba(255, 255, 255, 0.1);
 	border-radius: 1rem;
 	padding: 1rem;
-	max-width: 33%;
+	max-width: 100%;
 `;
 
 const CardFooter = styled.div`
@@ -39,6 +39,12 @@ const CardFooter = styled.div`
 		height: inherit;
 		width: 1rem;
 	}
+`;
+
+const CardContainer = styled.div`
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(3, 1fr);
 `;
 
 function Card() {
@@ -80,9 +86,11 @@ export default function Summary() {
 					alt={"Poster"}
 				/>
 			</HeaderBox>
-			<div>
+			<CardContainer>
 				<Card />
-			</div>
+				<Card />
+				<Card />
+			</CardContainer>
 		</PageContainer>
 	);
 }
