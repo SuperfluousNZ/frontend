@@ -50,6 +50,12 @@ const CardContainer = styled.div`
 	grid-template-columns: repeat(3, 1fr);
 `;
 
+const FactoidContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+`;
+
 interface CardProps {
 	title: PreviewTitleDto;
 	factoids: FactoidDto[];
@@ -58,16 +64,15 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ title, factoids }) => {
 	return (
 		<CardStyle>
-			<div>
+			<FactoidContainer>
 				{factoids.map((factoid) => (
 					<p key={factoid.id}>{factoid.description}</p>
 				))}
-			</div>
+			</FactoidContainer>
 			<CardFooter>
 				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
-					{title.name} (
-					{title.releasedAtUtc ? title.releasedAtUtc.getFullYear() : "XXXX"})
+					{title.name} ({title.releasedAtUtc?.getFullYear() || "XXXX"})
 				</p>
 			</CardFooter>
 		</CardStyle>
@@ -75,22 +80,20 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 };
 
 export default function Summary() {
+	const requiredFilm = dummyFilms[1];
+	const selectedFilm = dummyFilms[2];
+
 	return (
 		<PageContainer>
 			<HeaderBox>
-				<MiniPoster
-					src={
-						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
-					}
-					alt={"Poster"}
-				/>
-				<p>What to know about Iron Man 2 (2010) for The Avengers (2012)</p>
-				<MiniPoster
-					src={
-						"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg"
-					}
-					alt={"Poster"}
-				/>
+				<MiniPoster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
+				<p>
+					What to know about {requiredFilm.name} (
+					{requiredFilm.releasedAtUtc?.getFullYear() || "XXXX"}) for{" "}
+					{selectedFilm.name} (
+					{selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
+				</p>
+				<MiniPoster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
 			</HeaderBox>
 			<CardContainer>
 				<Card
