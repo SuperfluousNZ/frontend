@@ -1,8 +1,9 @@
 "use client";
 
-import { MiniPoster, Poster } from "@/components/title-page-components";
+import { MiniPoster } from "@/components/title-page-components";
 import { dummyFilms } from "@/contexts/TitleContext";
-import { CommonTitleDto, PreviewTitleDto } from "@/dtos";
+import { FactoidDto, PreviewTitleDto } from "@/dtos";
+import { dummyFactoids } from "@/dtos/factoid";
 import styled from "styled-components";
 
 const PageContainer = styled.div`
@@ -51,14 +52,17 @@ const CardContainer = styled.div`
 
 interface CardProps {
 	title: PreviewTitleDto;
+	factoids: FactoidDto[];
 }
 
-const Card: React.FC<CardProps> = ({ title }) => {
+const Card: React.FC<CardProps> = ({ title, factoids }) => {
 	return (
 		<CardStyle>
-			<p>
-				Tony Stark is Iron Man - genius, billionaire, playboy, philanthropist.
-			</p>
+			<div>
+				{factoids.map((factoid) => (
+					<p key={factoid.id}>{factoid.description}</p>
+				))}
+			</div>
 			<CardFooter>
 				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
@@ -89,9 +93,15 @@ export default function Summary() {
 				/>
 			</HeaderBox>
 			<CardContainer>
-				<Card title={dummyFilms[1]} />
-				<Card title={dummyFilms[2]} />
-				<Card title={dummyFilms[3]} />
+				<Card
+					title={dummyFilms[1]}
+					factoids={[dummyFactoids[1], dummyFactoids[2]]}
+				/>
+				<Card
+					title={dummyFilms[2]}
+					factoids={[dummyFactoids[1], dummyFactoids[3]]}
+				/>
+				<Card title={dummyFilms[3]} factoids={[dummyFactoids[1]]} />
 			</CardContainer>
 		</PageContainer>
 	);
