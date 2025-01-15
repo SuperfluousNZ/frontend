@@ -1,16 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 root {
-	--background: #ffffff;
-	--foreground: #1f1f1f;
+	/* --background: #ffffff;
+	--foreground: #1f1f1f; */
+
+	--background: #1f1f1f;
+	--foreground: #ededed;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
 	:root {
 		--background: #1f1f1f;
 		--foreground: #ededed;
 	}
-}
+} */
 
 html,
 body {
