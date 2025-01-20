@@ -2,8 +2,7 @@
 
 import { MiniPoster } from "@/components/title-page-components";
 import { FactoidDto, PreviewTitleDto } from "@/dtos";
-import { dummyFactoids } from "@/dtos/factoid";
-import { dummyPreviewTitles } from "@/util/dummyData";
+import { dummyFactoids, dummyPreviewTitles } from "@/util/dummyData";
 import styled from "styled-components";
 
 const PageContainer = styled.div`

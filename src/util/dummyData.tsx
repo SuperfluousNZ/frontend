@@ -1,4 +1,10 @@
-import { CommonTitleDto, PreviewTitleDto, Relation, Sequence } from "@/dtos";
+import {
+	CommonTitleDto,
+	FactoidDto,
+	PreviewTitleDto,
+	Relation,
+	Sequence,
+} from "@/dtos";
 
 export const dummyPreviewTitles: { [id: number]: PreviewTitleDto } = {
 	0: {
@@ -97,5 +103,33 @@ export const dummySequences: { [id: number]: Record<number, Sequence> } = {
 			previous: dummyPreviewTitles[4],
 			next: dummyPreviewTitles[6],
 		},
+	},
+};
+
+export const dummyFactoids: { [id: number]: FactoidDto } = {
+	1: {
+		id: 1,
+		description: "Factoid 1",
+		topics: [],
+	},
+	2: {
+		id: 2,
+		description: "Factoid 2",
+		topics: [],
+	},
+	3: {
+		id: 3,
+		description: "Factoid 3",
+		topics: [],
+	},
+	4: {
+		id: 4,
+		description: "Factoid 4",
+		topics: [],
+	},
+	5: {
+		id: 5,
+		description: "Factoid 5",
+		topics: [],
 	},
 };
