@@ -20,6 +20,7 @@ interface TitleContextType {
 	setTitle: (titleId: TitleDto["id"]) => void;
 	getRelations: () => Promise<DependencyOrderTitleDto>;
 	getSequences: (orderId?: number) => Promise<SequentialOrderTitleDto>;
+	getTitleById: (titleId: TitleDto["id"]) => void;
 }
 
 const placeholderTitle: CommonTitleDto = {
@@ -43,6 +44,7 @@ export const TitleContext = createContext<TitleContextType>({
 		previous: undefined,
 		next: undefined,
 	}),
+	getTitleById: () => {},
 });
 
 export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
@@ -63,42 +65,51 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		[],
 	);
 
-	const getRelations = useCallback<
-		TitleContextType["getRelations"]
-	>(async () => {
-		if (relations === null) {
-			setRelations(null);
-			setSequences({});
-
+	const getTitleById = useCallback<TitleContextType["setTitle"]>(
+		// biome-ignore lint/correctness/noUnusedVariables: placeholder
+		async (titleId: TitleDto["id"]) => {
 			// const response = await fetch(`/api/...`);
-			// const fetchedRelations = (await response.json()) as Relevance[];
-			const fetchedRelations = dummyRelations[5]; // placeholder
-			setRelations(fetchedRelations);
-		}
-		return {
-			...title,
-			order: "relational",
-			relations: relations ?? [],
-		};
-	}, [title, relations]);
+			// const title = (await response.json()) as CommonTitleDto;
+			const title = dummyCommonTitles[5];
+			setTitle(title);
+		},
+		[],
+	);
+
+	const getRelations = useCallback<TitleContextType["getRelations"]>(
+		async (titleId?: TitleDto["id"]) => {
+			if (titleId && titleId !== title.id) {
+				const fetchedRelations = dummyRelations[titleId];
+				return { ...title, order: "relational", relations: fetchedRelations };
+			}
+
+			if (relations === null) {
+				const fetchedRelations = dummyRelations[5];
+				setRelations(fetchedRelations);
+				setSequences({});
+				return { ...title, order: "relational", relations: fetchedRelations };
+			}
+
+			return { ...title, order: "relational", relations: relations ?? [] };
+		},
+		[title, relations],
+	);
 
 	const getSequences = useCallback<TitleContextType["getSequences"]>(
-		async (orderId = -1) => {
-			if (!sequences[orderId]) {
-				// const response = await fetch(`/api/...`);
-				// const fetchedSequences = (await response.json()) as Sequence;
-				const fetchedSequences = dummySequences[5][-1]; // placeholder
-				setSequences((prevSequences) => ({
-					...prevSequences,
-					[orderId]: fetchedSequences,
-				}));
+		async (orderId = -1, titleId?: TitleDto["id"]) => {
+			let fetchedSequences = sequences[orderId];
+			if (titleId && titleId !== title.id) {
+				fetchedSequences = dummySequences[titleId][orderId];
+			} else if (!fetchedSequences) {
+				fetchedSequences = dummySequences[5][orderId];
+				setSequences((prev) => ({ ...prev, [orderId]: fetchedSequences }));
 			}
 			return {
 				...title,
 				order: "sequential",
 				orderId,
-				previous: sequences[orderId]?.previous,
-				next: sequences[orderId]?.next,
+				previous: fetchedSequences?.previous,
+				next: fetchedSequences?.next,
 			};
 		},
 		[title, sequences],
@@ -111,6 +122,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 				setTitle: setTitleById,
 				getRelations,
 				getSequences,
+				getTitleById,
 			}}
 		>
 			{children}
