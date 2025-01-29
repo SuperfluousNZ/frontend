@@ -22,7 +22,7 @@ const HeaderBox = styled.div`
 `;
 
 const CardStyle = styled.div`
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgb(255 255 255 / 0.1);
 	border-radius: 1rem;
 	display: flex;
 	flex-direction: column;
