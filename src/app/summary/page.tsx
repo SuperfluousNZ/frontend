@@ -15,10 +15,34 @@ const PageContainer = styled.div`
 `;
 
 const HeaderBox = styled.div`
-	display: flex;
-	flex-direction: row;
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+
 	gap: 1rem;
 	height: 10rem;
+	align-items: center;
+
+	img {
+		height: inherit;
+		width: auto;
+		justify-self: center;
+	}
+`;
+
+const Description = styled.div`
+	color: #a6a6a6;
+	font-size: 1.2rem;
+	line-height: 1.5;
+`;
+
+const FilmName = styled.span`
+	color: #ffffff;
+	font-weight: bold;
+`;
+
+const FilmYear = styled.span`
+	color: #ffffff;
+	font-style: italic;
 `;
 
 const CardStyle = styled.div`
@@ -72,7 +96,8 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 			<CardFooter>
 				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
-					{title.name} ({title.releasedAtUtc?.getFullYear() || "XXXX"})
+					<FilmName>{title.name}</FilmName>{" "}
+					<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
 				</p>
 			</CardFooter>
 		</CardStyle>
@@ -87,12 +112,16 @@ export default function Summary() {
 		<PageContainer>
 			<HeaderBox>
 				<MiniPoster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
-				<p>
-					What to know about {requiredFilm.name} (
-					{requiredFilm.releasedAtUtc?.getFullYear() || "XXXX"}) for{" "}
-					{selectedFilm.name} (
-					{selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
-				</p>
+				<Description>
+					What to know about <FilmName>{requiredFilm.name} </FilmName>
+					<FilmYear>
+						({requiredFilm.releasedAtUtc?.getFullYear() || "XXXX"})
+					</FilmYear>{" "}
+					for <FilmName>{selectedFilm.name} </FilmName>
+					<FilmYear>
+						({selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
+					</FilmYear>
+				</Description>
 				<MiniPoster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
 			</HeaderBox>
 			<CardContainer>
