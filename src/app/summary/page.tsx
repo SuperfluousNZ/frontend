@@ -106,13 +106,23 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 };
 
 export default function Summary() {
-	const { title: selectedFilm, setTitle, getTitleById } = useTitleContext();
+	const {
+		title: selectedFilm,
+		setTitle,
+		// getFactoids,
+		getTitleById,
+	} = useTitleContext();
 	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
+	// const [factoids, setFactoids] = useState<Record<number, FactoidDto[]> | null>(
+	// 	null,
+	// );
 
 	useEffect(() => {
 		setTitle(1);
+		// getFactoids(1).then(setFactoids);
 		getTitleById(2).then(setRequiredFilm);
 	}, [setTitle, getTitleById]);
+	// }, [setTitle, getTitleById, getFactoids]);
 
 	if (!requiredFilm) {
 		return <div>Loading...</div>;
