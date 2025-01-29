@@ -1,8 +1,10 @@
 "use client";
 
 import { MiniPoster } from "@/components/title-page-components";
-import { FactoidDto, PreviewTitleDto } from "@/dtos";
+import { useTitleContext } from "@/contexts";
+import { CommonTitleDto, FactoidDto, PreviewTitleDto } from "@/dtos";
 import { dummyFactoids, dummyPreviewTitles } from "@/util/dummyData";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const PageContainer = styled.div`
@@ -104,8 +106,17 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 };
 
 export default function Summary() {
-	const requiredFilm = dummyPreviewTitles[1];
-	const selectedFilm = dummyPreviewTitles[2];
+	const { title: selectedFilm, setTitle, getTitleById } = useTitleContext();
+	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
+
+	useEffect(() => {
+		setTitle(1);
+		getTitleById(2).then(setRequiredFilm);
+	}, [setTitle, getTitleById]);
+
+	if (!requiredFilm) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<PageContainer>

@@ -28,7 +28,7 @@ interface TitleContextType {
 		orderId?: number,
 		titleId?: TitleDto["id"],
 	) => Promise<SequentialOrderTitleDto>;
-	getTitleById: (titleId: TitleDto["id"]) => void;
+	getTitleById: (titleId: TitleDto["id"]) => Promise<CommonTitleDto>;
 }
 
 const placeholderTitle: CommonTitleDto = {
@@ -53,7 +53,7 @@ export const TitleContext = createContext<TitleContextType>({
 		previous: undefined,
 		next: undefined,
 	}),
-	getTitleById: () => {},
+	getTitleById: async () => placeholderTitle,
 });
 
 export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
@@ -75,13 +75,16 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 		[],
 	);
 
-	const getTitleById = useCallback<TitleContextType["setTitle"]>(
-		// biome-ignore lint/correctness/noUnusedVariables: placeholder
+	const getTitleById = useCallback<TitleContextType["getTitleById"]>(
 		async (titleId: TitleDto["id"]) => {
 			// const response = await fetch(`/api/...`);
 			// const title = (await response.json()) as CommonTitleDto;
-			const title = dummyCommonTitles[5];
-			setTitle(title);
+
+			const fetchedTitle = dummyCommonTitles[titleId];
+
+			console.log(fetchedTitle);
+
+			return fetchedTitle;
 		},
 		[],
 	);
