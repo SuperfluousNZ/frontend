@@ -1,7 +1,8 @@
 "use client";
 
 import { CollectionDto } from "@/dtos";
-import { createContext, useCallback, useState } from "react";
+import { dummyCollections } from "@/util/dummyData";
+import { createContext, useCallback, useContext, useState } from "react";
 
 interface CollectionContextType {
 	collection: CollectionDto;
@@ -33,7 +34,7 @@ export const CollectionProvider = ({
 		// biome-ignore lint/correctness/noUnusedVariables: TODO: implement
 		async (collectionId: CollectionDto["id"]) => {
 			// const response = await fetch();
-			const collection = placeholderCollection;
+			const collection = dummyCollections[1];
 			setCollection(collection);
 		},
 		[],
@@ -47,3 +48,5 @@ export const CollectionProvider = ({
 		</CollectionContext.Provider>
 	);
 };
+
+export const useCollectionContext = () => useContext(CollectionContext);
