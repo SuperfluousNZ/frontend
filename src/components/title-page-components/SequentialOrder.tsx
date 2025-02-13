@@ -1,6 +1,6 @@
 import { SequentialOrderTitleDto } from "@/dtos";
 import styled, { css } from "styled-components";
-import { Poster, LeadPoster } from ".";
+import { Poster } from "../atomic";
 
 const SequentialOrderBlock = styled.div`
 	align-items: center;
@@ -47,6 +47,8 @@ const SequentialAdjacent = styled(SequentialItem)<{ $alignRight?: boolean }>`
 				margin-right: auto;
 			`};
 
+	height: 100%;
+
 	img {
 		max-height: 50%;
 	}
@@ -71,7 +73,7 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 				)}
 			</SequentialAdjacent>
 			<SequentialItem>
-				<LeadPoster src={title.largePosterUrl} alt={title.name} />
+				<Poster src={title.largePosterUrl} alt={title.name} />
 			</SequentialItem>
 			<SequentialAdjacent $alignRight={false}>
 				{next && (

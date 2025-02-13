@@ -1,6 +1,6 @@
 "use client";
 
-import { MiniPoster } from "@/components/title-page-components";
+import { Poster } from "@/components/atomic";
 import { useTitleContext } from "@/contexts";
 import { CommonTitleDto, FactoidDto, PreviewTitleDto } from "@/dtos";
 import { dummyFactoids, dummyPreviewTitles } from "@/util/dummyData";
@@ -22,12 +22,10 @@ const HeaderBox = styled.div`
 	gap: 1rem;
 	height: 10rem;
 	align-items: center;
+`;
 
-	img {
-		height: inherit;
-		width: auto;
-		justify-self: center;
-	}
+const PosterContainer = styled.div`
+	height: inherit;
 `;
 
 const Description = styled.div`
@@ -95,7 +93,7 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 				))}
 			</FactoidContainer>
 			<CardFooter>
-				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
+				<Poster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
 					<FilmName>{title.name}</FilmName>{" "}
 					<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
@@ -131,7 +129,10 @@ export default function Summary() {
 	return (
 		<PageContainer>
 			<HeaderBox>
-				<MiniPoster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
+				<PosterContainer>
+					<Poster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
+				</PosterContainer>
+
 				<Description>
 					What to know about <FilmName>{requiredFilm.name} </FilmName>
 					<FilmYear>
@@ -142,7 +143,10 @@ export default function Summary() {
 						({selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
 					</FilmYear>
 				</Description>
-				<MiniPoster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
+
+				<PosterContainer>
+					<Poster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
+				</PosterContainer>
 			</HeaderBox>
 			<CardContainer>
 				<Card
