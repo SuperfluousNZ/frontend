@@ -2,8 +2,7 @@
 
 import { MiniPoster } from "@/components/title-page-components";
 import { useTitleContext } from "@/contexts";
-import { CommonTitleDto, FactoidDto, PreviewTitleDto } from "@/dtos";
-import { dummyFactoids, dummyPreviewTitles } from "@/util/dummyData";
+import { CommonTitleDto, FactoidDto } from "@/dtos";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -56,18 +55,18 @@ const CardStyle = styled.div`
 	padding: 1rem;
 `;
 
-const CardFooter = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 1rem;
-	max-height: 5rem;
-	max-width: 100%;
+// const CardFooter = styled.div`
+// 	display: flex;
+// 	flex-direction: row;
+// 	gap: 1rem;
+// 	max-height: 5rem;
+// 	max-width: 100%;
 
-	img {
-		height: inherit;
-		width: 1rem;
-	}
-`;
+// 	img {
+// 		height: inherit;
+// 		width: 1rem;
+// 	}
+// `;
 
 const CardContainer = styled.div`
 	display: grid;
@@ -82,11 +81,10 @@ const FactoidContainer = styled.div`
 `;
 
 interface CardProps {
-	title: PreviewTitleDto;
 	factoids: FactoidDto[];
 }
 
-const Card: React.FC<CardProps> = ({ title, factoids }) => {
+const Card: React.FC<CardProps> = ({ factoids }) => {
 	return (
 		<CardStyle>
 			<FactoidContainer>
@@ -94,13 +92,13 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 					<p key={factoid.id}>{factoid.description}</p>
 				))}
 			</FactoidContainer>
-			<CardFooter>
+			{/* <CardFooter>
 				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
 					<FilmName>{title.name}</FilmName>{" "}
 					<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
 				</p>
-			</CardFooter>
+			</CardFooter> */}
 		</CardStyle>
 	);
 };
@@ -113,7 +111,7 @@ export default function Summary() {
 		getTitleById,
 	} = useTitleContext();
 	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
-	const [_factoids, setFactoids] = useState<FactoidDto[]>([]);
+	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
 		setTitle(1);
@@ -142,15 +140,9 @@ export default function Summary() {
 				<MiniPoster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
 			</HeaderBox>
 			<CardContainer>
-				<Card
-					title={dummyPreviewTitles[1]}
-					factoids={[dummyFactoids[1], dummyFactoids[2]]}
-				/>
-				<Card
-					title={dummyPreviewTitles[2]}
-					factoids={[dummyFactoids[1], dummyFactoids[3]]}
-				/>
-				<Card title={dummyPreviewTitles[3]} factoids={[dummyFactoids[1]]} />
+				{factoids.map((factoid) => (
+					<Card key={factoid.id} factoids={[factoid]} />
+				))}
 			</CardContainer>
 		</PageContainer>
 	);

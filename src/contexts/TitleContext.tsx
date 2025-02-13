@@ -136,13 +136,13 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			if (titleId && titleId !== title.id) {
 				// const response = await fetch(`/api/...`);
 				// const factoids = (await response.json()) as FactoidDto[];
-				fetchedFactoids = [dummyFactoids[1], dummyFactoids[2]];
+				fetchedFactoids = Object.values(dummyFactoids);
 			}
 
 			if (!fetchedFactoids) {
 				// const response = await fetch(`/api/...`);
 				// const factoids = (await response.json()) as FactoidDto[];
-				const fetchedFactoids = [dummyFactoids[1], dummyFactoids[2]];
+				const fetchedFactoids = Object.values(dummyFactoids);
 				setFactoids(fetchedFactoids);
 			}
 
