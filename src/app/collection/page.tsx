@@ -13,7 +13,7 @@ export default function Collection() {
 
 	return (
 		<div>
-			<h1>Collection</h1>
+			<h1>{collection.name}</h1>
 			<CollectionTrack collection={collection} />
 		</div>
 	);

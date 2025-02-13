@@ -1,6 +1,33 @@
 "use client";
 
-import { CollectionDto } from "@/dtos";
+import { CollectionDto, PreviewTitleDto } from "@/dtos";
+import { styled } from "styled-components";
+import { MiniPoster } from "./title-page-components";
+
+const TrackContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+`;
+
+const PosterContainer = styled.div`
+	width: 10rem;
+`;
+
+interface TrackItemProps {
+	title: PreviewTitleDto;
+}
+
+const TrackItem = ({ title }: TrackItemProps) => {
+	return (
+		<div>
+			<h2>{title.name}</h2>
+			<PosterContainer>
+				<MiniPoster src={title.smallPosterUrl} alt={title.name} />
+			</PosterContainer>
+		</div>
+	);
+};
 
 interface CollectionTrackProps {
 	collection: CollectionDto;
@@ -8,14 +35,13 @@ interface CollectionTrackProps {
 }
 
 export const CollectionTrack = ({ collection }: CollectionTrackProps) => {
+	const titles = collection.titles;
+
 	return (
-		<div>
-			<h1>{collection.name}</h1>
-			<ul>
-				{collection.titles.map((title) => (
-					<li key={title.id}>{title.name}</li>
-				))}
-			</ul>
-		</div>
+		<TrackContainer>
+			{titles.map((title) => (
+				<TrackItem key={title.id} title={title} />
+			))}
+		</TrackContainer>
 	);
 };
