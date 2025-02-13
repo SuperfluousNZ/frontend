@@ -72,6 +72,8 @@ const CardContainer = styled.div`
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: repeat(3, 1fr);
+	padding-inline: 10rem; // swap out at a later date when we implement global content width
+	width: 100%;
 `;
 
 const FactoidContainer = styled.div`
@@ -118,6 +120,7 @@ export default function Summary() {
 		getFactoids(1).then(setFactoids);
 		getTitleById(2).then(setRequiredFilm);
 	}, [setTitle, getTitleById, getFactoids]);
+	// TODO: group factoids by topic, make each card per topic
 
 	if (!requiredFilm) {
 		return <div>Loading...</div>;
