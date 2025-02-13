@@ -4,7 +4,7 @@ import {
 	RelationRelevance,
 } from "@/dtos";
 import { styled } from "styled-components";
-import { LeadPoster, MiniPoster } from ".";
+import { Poster } from "../atomic";
 
 const DependencyOrderBlock = styled.div`
 	display: grid;
@@ -24,7 +24,7 @@ const DependencyPosterContainer = styled.div`
 
 	img {
 		max-height: 100%;
-		object-fit: contain;
+		// object-fit: contain;
 	}
 `;
 
@@ -78,9 +78,12 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
 			{titles.map((title) => (
-				<DependencyTabPosterContainer key={title.id}>
-					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
-				</DependencyTabPosterContainer>
+				<Poster
+					key={title.id}
+					src={title.smallPosterUrl}
+					borderRadius="0.5rem"
+					alt={title.name}
+				/>
 			))}
 			{titles.length === 0 && <DependencyTabPosterContainer />}
 			{/* ^^ Spacer in case the list is empty */}
@@ -117,7 +120,11 @@ export const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 	return (
 		<DependencyOrderBlock>
 			<DependencyPosterContainer>
-				<LeadPoster src={title.largePosterUrl} alt={title.name} />
+				<Poster
+					src={title.largePosterUrl}
+					alt={title.name}
+					borderRadius="1rem"
+				/>
 			</DependencyPosterContainer>
 			<DependencyTabs>
 				<DependencyTab titles={relationsMap.must} relevance="must" />
