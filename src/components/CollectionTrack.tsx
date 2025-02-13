@@ -10,6 +10,13 @@ const TrackContainer = styled.div`
 	gap: 1rem;
 `;
 
+const ItemContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 10rem;
+`;
+
 const PosterContainer = styled.div`
 	width: 10rem;
 `;
@@ -20,12 +27,12 @@ interface TrackItemProps {
 
 const TrackItem = ({ title }: TrackItemProps) => {
 	return (
-		<div>
-			<h2>{title.name}</h2>
+		<ItemContainer>
 			<PosterContainer>
 				<MiniPoster src={title.smallPosterUrl} alt={title.name} />
 			</PosterContainer>
-		</div>
+			<h3>{title.name}</h3>
+		</ItemContainer>
 	);
 };
 
@@ -36,6 +43,7 @@ interface CollectionTrackProps {
 
 export const CollectionTrack = ({ collection }: CollectionTrackProps) => {
 	const titles = collection.titles;
+	// TODO: implement ordering
 
 	return (
 		<TrackContainer>
