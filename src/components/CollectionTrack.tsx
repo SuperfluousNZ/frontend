@@ -23,16 +23,19 @@ const PosterContainer = styled.div`
 
 interface TrackItemProps {
 	title: PreviewTitleDto;
+	hyperlink: string;
 }
 
-const TrackItem = ({ title }: TrackItemProps) => {
+const TrackItem = ({ title, hyperlink }: TrackItemProps) => {
 	return (
-		<ItemContainer>
-			<PosterContainer>
-				<MiniPoster src={title.smallPosterUrl} alt={title.name} />
-			</PosterContainer>
-			<h3>{title.name}</h3>
-		</ItemContainer>
+		<a href={hyperlink}>
+			<ItemContainer>
+				<PosterContainer>
+					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
+				</PosterContainer>
+				<h3>{title.name}</h3>
+			</ItemContainer>
+		</a>
 	);
 };
 
@@ -48,7 +51,7 @@ export const CollectionTrack = ({ collection }: CollectionTrackProps) => {
 	return (
 		<TrackContainer>
 			{titles.map((title) => (
-				<TrackItem key={title.id} title={title} />
+				<TrackItem key={title.id} title={title} hyperlink="title" />
 			))}
 		</TrackContainer>
 	);
