@@ -109,20 +109,17 @@ export default function Summary() {
 	const {
 		title: selectedFilm,
 		setTitle,
-		// getFactoids,
+		getFactoids,
 		getTitleById,
 	} = useTitleContext();
 	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
-	// const [factoids, setFactoids] = useState<Record<number, FactoidDto[]> | null>(
-	// 	null,
-	// );
+	const [_factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
 		setTitle(1);
-		// getFactoids(1).then(setFactoids);
+		getFactoids(1).then(setFactoids);
 		getTitleById(2).then(setRequiredFilm);
-	}, [setTitle, getTitleById]);
-	// }, [setTitle, getTitleById, getFactoids]);
+	}, [setTitle, getTitleById, getFactoids]);
 
 	if (!requiredFilm) {
 		return <div>Loading...</div>;

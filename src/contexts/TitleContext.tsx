@@ -20,9 +20,7 @@ import { createContext, useCallback, useContext, useState } from "react";
 interface TitleContextType {
 	title: CommonTitleDto;
 	setTitle: (titleId: TitleDto["id"]) => void;
-	getFactoids: (
-		titleId?: TitleDto["id"],
-	) => Promise<Record<number, FactoidDto[]>>;
+	getFactoids: (titleId?: TitleDto["id"]) => Promise<FactoidDto[]>;
 	getRelations: (titleId?: TitleDto["id"]) => Promise<DependencyOrderTitleDto>;
 	getSequences: (
 		orderId?: number,
@@ -40,7 +38,7 @@ const placeholderTitle: CommonTitleDto = {
 export const TitleContext = createContext<TitleContextType>({
 	title: placeholderTitle,
 	setTitle: () => {},
-	getFactoids: async () => ({}),
+	getFactoids: async () => [],
 	getRelations: async () => ({
 		...placeholderTitle,
 		order: "relational",
@@ -62,7 +60,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 	const [relations, setRelations] = useState<Relation[] | null>(null);
 	// An orderId of -1 is reserved for the release order
 	const [sequences, setSequences] = useState<Record<number, Sequence>>({});
-	const [factoids, setFactoids] = useState<Record<number, FactoidDto[]>>([]);
+	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	const setTitleById = useCallback<TitleContextType["setTitle"]>(
 		// biome-ignore lint/correctness/noUnusedVariables: TODO: implement
@@ -138,13 +136,13 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			if (titleId && titleId !== title.id) {
 				// const response = await fetch(`/api/...`);
 				// const factoids = (await response.json()) as FactoidDto[];
-				fetchedFactoids = { 4: [dummyFactoids[1], dummyFactoids[2]] };
+				fetchedFactoids = [dummyFactoids[1], dummyFactoids[2]];
 			}
 
 			if (!fetchedFactoids) {
 				// const response = await fetch(`/api/...`);
 				// const factoids = (await response.json()) as FactoidDto[];
-				const fetchedFactoids = { 4: [dummyFactoids[1], dummyFactoids[2]] };
+				const fetchedFactoids = [dummyFactoids[1], dummyFactoids[2]];
 				setFactoids(fetchedFactoids);
 			}
 
