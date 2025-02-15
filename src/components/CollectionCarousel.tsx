@@ -13,6 +13,7 @@ const CarouselParent = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	align-items: center;
 `;
 
 const Carousel = styled.div`
@@ -43,6 +44,18 @@ const StyledPoster = styled(Poster)`
 `;
 
 const SlidePoster = styled(StyledPoster)``;
+
+const ThumbCarousel = styled(Carousel)`
+	width: 25%;
+
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		black 10%,
+		black 90%,
+		transparent
+	);
+`;
 
 const ThumbContainer = styled.div`
 	display: flex;
@@ -203,7 +216,7 @@ export const CollectionCarousel = ({
 					))}
 				</CarouselContainer>
 			</Carousel>
-			<Carousel ref={emblaThumbsRef}>
+			<ThumbCarousel ref={emblaThumbsRef}>
 				<CarouselContainer>
 					{titles.map((title, index) => (
 						<Thumb
@@ -214,7 +227,7 @@ export const CollectionCarousel = ({
 						/>
 					))}
 				</CarouselContainer>
-			</Carousel>
+			</ThumbCarousel>
 		</CarouselParent>
 	);
 };
