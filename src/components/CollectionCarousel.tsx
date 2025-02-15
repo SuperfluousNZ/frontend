@@ -104,7 +104,8 @@ const Thumb = ({ title, onClick, selected }: ThumbProps) => {
 
 interface CollectionCarouselProps {
 	collection: CollectionDto;
-	onSelectChange?: (Title: PreviewTitleDto) => void;
+	selectedIndex: number;
+	setSelectedIndex: (index: number) => void;
 }
 
 const mainCarouselOptions: EmblaOptionsType = {
@@ -120,7 +121,8 @@ const thumbCarouselOptions: EmblaOptionsType = {
 
 export const CollectionCarousel = ({
 	collection,
-	onSelectChange = () => {},
+	selectedIndex,
+	setSelectedIndex,
 }: CollectionCarouselProps) => {
 	const [emblaMainRef, emblaMainApi] = useEmblaCarousel(mainCarouselOptions, [
 		WheelGesturesPlugin({ forceWheelAxis: "y" }),
@@ -130,7 +132,6 @@ export const CollectionCarousel = ({
 		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
 	);
 
-	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [scales, setScales] = useState<number[]>([]);
 
 	const titles = collection.titles;
@@ -153,10 +154,14 @@ export const CollectionCarousel = ({
 	const onSelect = useCallback(() => {
 		if (!emblaMainApi || !emblaThumbsApi) return;
 		const index = emblaMainApi.selectedScrollSnap();
+		setIndex(index);
+	}, [emblaMainApi, emblaThumbsApi]);
+
+	function setIndex(index: number) {
 		setSelectedIndex(index);
+		if (!emblaMainApi || !emblaThumbsApi) return;
 		emblaThumbsApi.scrollTo(index);
-		onSelectChange(titles[index]);
-	}, [emblaMainApi, emblaThumbsApi, onSelectChange, titles]);
+	}
 
 	const onThumbClick = useCallback(
 		(index: number) => {
@@ -169,11 +174,20 @@ export const CollectionCarousel = ({
 	useEffect(() => {
 		if (!emblaMainApi || !emblaThumbsApi) return;
 
-		emblaMainApi.on("scroll", calculateScales);
-		emblaMainApi.on("select", onSelect).on("reInit", onSelect);
+		emblaMainApi
+			.on("scroll", calculateScales)
+			.on("select", onSelect)
+			.on("reInit", onSelect);
 
 		calculateScales();
 	}, [emblaMainApi, emblaThumbsApi, calculateScales, onSelect]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Only runs once
+	useEffect(() => {
+		if (!emblaMainApi || !emblaThumbsApi) return;
+		emblaMainApi.scrollTo(selectedIndex, true);
+		emblaThumbsApi.scrollTo(selectedIndex, true);
+	}, [emblaMainApi]);
 
 	return (
 		<CarouselParent>

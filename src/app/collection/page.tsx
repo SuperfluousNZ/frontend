@@ -7,13 +7,18 @@ import { useEffect, useState } from "react";
 
 export default function Collection() {
 	const { collection, setCollection } = useCollectionContext();
-	const [selectedTitle, setSelectedTitle] = useState<PreviewTitleDto | null>(
-		null,
+	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [selectedTitle, setSelectedTitle] = useState<PreviewTitleDto>(
+		collection.titles[0],
 	);
 
 	useEffect(() => {
-		setCollection(1);
+		setCollection(1); // just default for now
 	}, [setCollection]);
+
+	useEffect(() => {
+		setSelectedTitle(collection.titles[selectedIndex]);
+	}, [collection.titles, selectedIndex]);
 
 	return (
 		<div>
@@ -22,7 +27,8 @@ export default function Collection() {
 			</h1>
 			<CollectionCarousel
 				collection={collection}
-				onSelectChange={setSelectedTitle}
+				selectedIndex={selectedIndex}
+				setSelectedIndex={setSelectedIndex}
 			/>
 			<h3 style={{ textAlign: "center", marginBlock: "1rem" }}>
 				{selectedTitle?.name}
