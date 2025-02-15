@@ -4,7 +4,7 @@ import {
 	RelationRelevance,
 } from "@/dtos";
 import { styled } from "styled-components";
-import { LeadPoster, MiniPoster } from ".";
+import { Poster } from "../atomic";
 
 const DependencyOrderBlock = styled.div`
 	display: grid;
@@ -15,26 +15,19 @@ const DependencyOrderBlock = styled.div`
 	width: 100%;
 `;
 
-const DependencyPosterContainer = styled.div`
-	align-items: center;
-	contain: size;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-
-	img {
-		max-height: 100%;
-		object-fit: contain;
-	}
+const DependencyPoster = styled(Poster)`
+	justify-self: end;
+	max-height: 30rem;
+	max-width: 100%;
 `;
 
 const DependencyTabs = styled.div`
+	align-items: stretch;
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
 	height: inherit;
 	justify-content: space-between;
-	align-items: stretch;
 `;
 
 const DependencyTabStyle = styled.div`
@@ -44,7 +37,7 @@ const DependencyTabStyle = styled.div`
 	flex-direction: row;
 	flex: 1;
 	gap: 1rem;
-	height: 100%;
+	height: 10rem;
 	overflow: hidden;
 	padding: 1rem;
 	position: relative;
@@ -78,9 +71,12 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
 			{titles.map((title) => (
-				<DependencyTabPosterContainer key={title.id}>
-					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
-				</DependencyTabPosterContainer>
+				<Poster
+					key={title.id}
+					src={title.smallPosterUrl}
+					borderRadius="0.5rem"
+					alt={title.name}
+				/>
 			))}
 			{titles.length === 0 && <DependencyTabPosterContainer />}
 			{/* ^^ Spacer in case the list is empty */}
@@ -116,9 +112,11 @@ export const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 
 	return (
 		<DependencyOrderBlock>
-			<DependencyPosterContainer>
-				<LeadPoster src={title.largePosterUrl} alt={title.name} />
-			</DependencyPosterContainer>
+			<DependencyPoster
+				src={title.largePosterUrl}
+				alt={title.name}
+				borderRadius="1rem"
+			/>
 			<DependencyTabs>
 				<DependencyTab titles={relationsMap.must} relevance="must" />
 				<DependencyTab titles={relationsMap.should} relevance="should" />
