@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 import { MiniPoster } from "./title-page-components";
 
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Carousel = styled.div`
 	overflow: hidden;
@@ -46,7 +46,6 @@ const TrackItem = ({ title, hyperlink }: TrackItemProps) => {
 				<PosterContainer>
 					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
 				</PosterContainer>
-				<h3>{title.name}</h3>
 			</a>
 		</SlideContainer>
 	);
@@ -54,14 +53,21 @@ const TrackItem = ({ title, hyperlink }: TrackItemProps) => {
 
 interface CollectionCarouselProps {
 	collection: CollectionDto;
+	onSelectChange?: (Title: PreviewTitleDto) => void;
 	// order: ???
 }
 
-export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
+export const CollectionCarousel = ({
+	collection,
+	onSelectChange = () => {},
+}: CollectionCarouselProps) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
-		containScroll: false,
 		loop: false,
+		align: "center",
+		containScroll: false,
 	});
+
+	const [_selectedIndex, setSelectedIndex] = useState(0);
 
 	const titles = collection.titles;
 	// TODO: implement ordering
@@ -71,6 +77,19 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
 			console.log(emblaApi.slideNodes());
 		}
 	}, [emblaApi]);
+
+	const onSelect = useCallback(() => {
+		if (!emblaApi) return;
+		const newIndex = emblaApi.selectedScrollSnap();
+		setSelectedIndex(newIndex);
+		onSelectChange(titles[newIndex]);
+	}, [emblaApi, onSelectChange, titles]);
+
+	useEffect(() => {
+		if (!emblaApi) return;
+		emblaApi.on("select", onSelect);
+		onSelect();
+	}, [emblaApi, onSelect]);
 
 	return (
 		<Carousel ref={emblaRef}>
