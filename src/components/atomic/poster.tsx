@@ -18,20 +18,22 @@ const PosterStyle = styled.img<{ $borderRadius?: string }>`
 interface PosterProps {
 	alt: string;
 	borderRadius?: string;
+	className?: string;
 	src?: string;
 }
 
 export const Poster: React.FC<PosterProps> = ({
-	src,
 	alt,
 	borderRadius = "1rem",
+	className,
+	src,
 }) => {
 	if (!src) {
 		return null;
 	}
 
 	return (
-		<PosterContainer>
+		<PosterContainer className={className}>
 			<PosterStyle src={src} alt={alt} $borderRadius={borderRadius} />
 		</PosterContainer>
 	);

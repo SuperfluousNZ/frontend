@@ -24,7 +24,7 @@ const HeaderBox = styled.div`
 	align-items: center;
 `;
 
-const PosterContainer = styled.div`
+const StyledPoster = styled(Poster)`
 	height: inherit;
 `;
 
@@ -129,9 +129,10 @@ export default function Summary() {
 	return (
 		<PageContainer>
 			<HeaderBox>
-				<PosterContainer>
-					<Poster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
-				</PosterContainer>
+				<StyledPoster
+					src={requiredFilm.smallPosterUrl}
+					alt={requiredFilm.name}
+				/>
 
 				<Description>
 					What to know about <FilmName>{requiredFilm.name} </FilmName>
@@ -144,9 +145,10 @@ export default function Summary() {
 					</FilmYear>
 				</Description>
 
-				<PosterContainer>
-					<Poster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
-				</PosterContainer>
+				<StyledPoster
+					src={selectedFilm.smallPosterUrl}
+					alt={selectedFilm.name}
+				/>
 			</HeaderBox>
 			<CardContainer>
 				<Card
