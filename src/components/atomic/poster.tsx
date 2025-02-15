@@ -21,13 +21,13 @@ interface PosterProps {
 	src?: string;
 }
 
-export const Poster: React.FC<PosterProps> = ({ src, alt, borderRadius }) => {
+export const Poster: React.FC<PosterProps> = ({
+	src,
+	alt,
+	borderRadius = "1rem",
+}) => {
 	if (!src) {
 		return null;
-	}
-
-	if (!borderRadius) {
-		borderRadius = "1rem";
 	}
 
 	return (
