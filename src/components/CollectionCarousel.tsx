@@ -10,38 +10,35 @@ import { useCallback, useEffect, useState } from "react";
 const Carousel = styled.div`
 	overflow: hidden;
 	--slide-size: 20%;
-	--slide-spacing: 2rem;
+	--slide-spacing: 1rem;
 `;
 
 const CarouselContainer = styled.div`
 	display: flex;
-	// margin-left: calc(var(--slide-spacing) * -1);
-	// gap: 1rem;
 `;
 
-const SlideContainer = styled.div`
+const SlideContainer = styled.div<{ $scale: number }>`
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
-	min-width: 0;
 	flex: 0 0 var(--slide-size);
-	max-width: 100%;
+	gap: 1rem;
 	margin-inline: var(--slide-spacing);
+	max-width: 100%;
+	min-width: 0;
+	transform: scale(${(props) => props.$scale});
 `;
 
-const PosterContainer = styled.div`
-	// width: 100%;
-	// height: 20rem;
-`;
+const PosterContainer = styled.div``;
 
 interface TrackItemProps {
-	title: PreviewTitleDto;
 	hyperlink: string;
+	scale: number;
+	title: PreviewTitleDto;
 }
 
-const TrackItem = ({ title, hyperlink }: TrackItemProps) => {
+const TrackItem = ({ title, hyperlink, scale }: TrackItemProps) => {
 	return (
-		<SlideContainer>
+		<SlideContainer $scale={scale}>
 			<a href={hyperlink}>
 				<PosterContainer>
 					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
@@ -54,7 +51,6 @@ const TrackItem = ({ title, hyperlink }: TrackItemProps) => {
 interface CollectionCarouselProps {
 	collection: CollectionDto;
 	onSelectChange?: (Title: PreviewTitleDto) => void;
-	// order: ???
 }
 
 export const CollectionCarousel = ({
@@ -62,40 +58,53 @@ export const CollectionCarousel = ({
 	onSelectChange = () => {},
 }: CollectionCarouselProps) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
-		loop: false,
 		align: "center",
 		containScroll: false,
+		loop: false,
 	});
 
 	const [_selectedIndex, setSelectedIndex] = useState(0);
+	const [scales, setScales] = useState<number[]>([]);
 
 	const titles = collection.titles;
-	// TODO: implement ordering
 
-	useEffect(() => {
-		if (emblaApi) {
-			console.log(emblaApi.slideNodes());
-		}
+	const calculateScales = useCallback(() => {
+		if (!emblaApi) return;
+
+		const slides = emblaApi.slideNodes();
+		const scrollProgress = emblaApi.scrollProgress();
+
+		const newScales = slides.map((_, index) => {
+			const snapPoint = emblaApi.scrollSnapList()[index];
+			const distance = Math.abs(scrollProgress - snapPoint);
+			return Math.max(0.8, 1 - distance);
+		});
+
+		setScales(newScales);
 	}, [emblaApi]);
 
-	const onSelect = useCallback(() => {
-		if (!emblaApi) return;
-		const newIndex = emblaApi.selectedScrollSnap();
-		setSelectedIndex(newIndex);
-		onSelectChange(titles[newIndex]);
-	}, [emblaApi, onSelectChange, titles]);
-
 	useEffect(() => {
 		if (!emblaApi) return;
-		emblaApi.on("select", onSelect);
-		onSelect();
-	}, [emblaApi, onSelect]);
+
+		emblaApi.on("scroll", calculateScales);
+		emblaApi.on("select", () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+			onSelectChange(titles[emblaApi.selectedScrollSnap()]);
+		});
+
+		calculateScales();
+	}, [emblaApi, calculateScales, onSelectChange, titles]);
 
 	return (
 		<Carousel ref={emblaRef}>
 			<CarouselContainer>
-				{titles.map((title) => (
-					<TrackItem key={title.id} title={title} hyperlink="title" />
+				{titles.map((title, index) => (
+					<TrackItem
+						hyperlink="title"
+						key={title.id}
+						scale={scales[index] || 1}
+						title={title}
+					/>
 				))}
 			</CarouselContainer>
 		</Carousel>
