@@ -2,12 +2,12 @@
 
 import { CollectionDto, PreviewTitleDto } from "@/dtos";
 import { styled } from "styled-components";
-import { MiniPoster } from "./title-page-components";
 
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useEffect, useState } from "react";
+import { Poster } from "./atomic";
 
 const CarouselParent = styled.div`
 	display: flex;
@@ -38,6 +38,12 @@ const SlideContainer = styled.div<{ $scale: number }>`
 	transform: scale(${(props) => props.$scale});
 `;
 
+const StyledPoster = styled(Poster)`
+	width: 100%;
+`;
+
+const SlidePoster = styled(StyledPoster)``;
+
 const ThumbContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -48,7 +54,9 @@ const ThumbContainer = styled.div`
 	min-width: 0;
 `;
 
-const PosterContainer = styled.div``;
+const ThumbPoster = styled(StyledPoster)`
+	border-radius: 0.5rem;
+`;
 
 const ThumbButton = styled.button`
 	background: none;
@@ -67,9 +75,7 @@ const Slide = ({ title, hyperlink, scale }: SlideProps) => {
 	return (
 		<SlideContainer $scale={scale}>
 			<a href={hyperlink}>
-				<PosterContainer>
-					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
-				</PosterContainer>
+				<SlidePoster src={title.smallPosterUrl} alt={title.name} />
 			</a>
 		</SlideContainer>
 	);
@@ -84,9 +90,7 @@ const Thumb = ({ title, onClick }: ThumbProps) => {
 	return (
 		<ThumbContainer>
 			<ThumbButton onClick={onClick} type="button">
-				<PosterContainer>
-					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
-				</PosterContainer>
+				<ThumbPoster src={title.smallPosterUrl} alt={title.name} />
 			</ThumbButton>
 		</ThumbContainer>
 	);
