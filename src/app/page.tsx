@@ -44,7 +44,7 @@ export default function Home() {
 					>
 						Read our docs
 					</a>
-					<a href="title" className={styles.secondary}>
+					<a href="title/123" className={styles.secondary}>
 						Title testing page
 					</a>
 				</div>
