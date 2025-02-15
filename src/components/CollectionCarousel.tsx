@@ -54,8 +54,9 @@ const ThumbContainer = styled.div`
 	min-width: 0;
 `;
 
-const ThumbPoster = styled(StyledPoster)`
+const ThumbPoster = styled(StyledPoster)<{ selected: boolean }>`
 	border-radius: 0.5rem;
+	${({ selected }) => selected && "border: 1px solid #888;"}
 `;
 
 const ThumbButton = styled.button`
@@ -82,15 +83,20 @@ const Slide = ({ title, hyperlink, scale }: SlideProps) => {
 };
 
 interface ThumbProps {
-	title: PreviewTitleDto;
 	onClick: () => void;
+	selected: boolean;
+	title: PreviewTitleDto;
 }
 
-const Thumb = ({ title, onClick }: ThumbProps) => {
+const Thumb = ({ title, onClick, selected }: ThumbProps) => {
 	return (
 		<ThumbContainer>
 			<ThumbButton onClick={onClick} type="button">
-				<ThumbPoster src={title.smallPosterUrl} alt={title.name} />
+				<ThumbPoster
+					src={title.smallPosterUrl}
+					alt={title.name}
+					selected={selected}
+				/>
 			</ThumbButton>
 		</ThumbContainer>
 	);
@@ -124,7 +130,7 @@ export const CollectionCarousel = ({
 		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
 	);
 
-	const [_selectedIndex, setSelectedIndex] = useState(0);
+	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [scales, setScales] = useState<number[]>([]);
 
 	const titles = collection.titles;
@@ -188,8 +194,9 @@ export const CollectionCarousel = ({
 					{titles.map((title, index) => (
 						<Thumb
 							key={title.id}
-							title={title}
 							onClick={() => onThumbClick(index)}
+							selected={index === selectedIndex}
+							title={title}
 						/>
 					))}
 				</CarouselContainer>
