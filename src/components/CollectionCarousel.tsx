@@ -4,6 +4,7 @@ import { CollectionDto, PreviewTitleDto } from "@/dtos";
 import { styled } from "styled-components";
 import { MiniPoster } from "./title-page-components";
 
+import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useEffect, useState } from "react";
@@ -31,13 +32,13 @@ const SlideContainer = styled.div<{ $scale: number }>`
 
 const PosterContainer = styled.div``;
 
-interface TrackItemProps {
+interface SlideProps {
 	hyperlink: string;
 	scale: number;
 	title: PreviewTitleDto;
 }
 
-const TrackItem = ({ title, hyperlink, scale }: TrackItemProps) => {
+const Slide = ({ title, hyperlink, scale }: SlideProps) => {
 	return (
 		<SlideContainer $scale={scale}>
 			<a href={hyperlink}>
@@ -54,18 +55,19 @@ interface CollectionCarouselProps {
 	onSelectChange?: (Title: PreviewTitleDto) => void;
 }
 
+const mainCarouselOptions: EmblaOptionsType = {
+	align: "center",
+	containScroll: false,
+	loop: false,
+};
+
 export const CollectionCarousel = ({
 	collection,
 	onSelectChange = () => {},
 }: CollectionCarouselProps) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel(
-		{
-			align: "center",
-			containScroll: false,
-			loop: false,
-		},
-		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
-	);
+	const [emblaRef, emblaApi] = useEmblaCarousel(mainCarouselOptions, [
+		WheelGesturesPlugin({ forceWheelAxis: "y" }),
+	]);
 
 	const [_selectedIndex, setSelectedIndex] = useState(0);
 	const [scales, setScales] = useState<number[]>([]);
@@ -81,7 +83,7 @@ export const CollectionCarousel = ({
 		const newScales = slides.map((_, index) => {
 			const snapPoint = emblaApi.scrollSnapList()[index];
 			const distance = Math.abs(scrollProgress - snapPoint);
-			return Math.max(0.8, 1 - distance);
+			return Math.max(0.8, 1 - distance * 1.2);
 		});
 
 		setScales(newScales);
@@ -103,7 +105,7 @@ export const CollectionCarousel = ({
 		<Carousel ref={emblaRef}>
 			<CarouselContainer>
 				{titles.map((title, index) => (
-					<TrackItem
+					<Slide
 						hyperlink="title"
 						key={title.id}
 						scale={scales[index] || 1}
