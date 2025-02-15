@@ -1,6 +1,6 @@
 "use client";
 
-import { CollectionTrack } from "@/components/CollectionTrack";
+import { CollectionCarousel } from "@/components/CollectionCarousel";
 import { useCollectionContext } from "@/contexts";
 import { useEffect } from "react";
 
@@ -13,8 +13,10 @@ export default function Collection() {
 
 	return (
 		<div>
-			<h1>{collection.name}</h1>
-			<CollectionTrack collection={collection} />
+			<h1 style={{ textAlign: "center", marginBlock: "1rem" }}>
+				{collection.name}
+			</h1>
+			<CollectionCarousel collection={collection} />
 		</div>
 	);
 }
