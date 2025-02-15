@@ -16,16 +16,15 @@ const PageContainer = styled.div`
 `;
 
 const HeaderBox = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 2fr 1fr;
-
-	gap: 1rem;
-	height: 10rem;
 	align-items: center;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 2fr 1fr;
 `;
 
-const StyledPoster = styled(Poster)`
-	height: inherit;
+const StyledPoster = styled(Poster)<{ $rightAlign?: boolean }>`
+	width: 7rem;
+	${({ $rightAlign }) => $rightAlign && "justify-self: end"};
 `;
 
 const Description = styled.div`
@@ -132,6 +131,7 @@ export default function Summary() {
 				<StyledPoster
 					src={requiredFilm.smallPosterUrl}
 					alt={requiredFilm.name}
+					$rightAlign={true}
 				/>
 
 				<Description>

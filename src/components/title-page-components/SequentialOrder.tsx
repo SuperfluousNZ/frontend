@@ -19,11 +19,6 @@ const SequentialItem = styled.div`
 	height: 100%;
 	justify-content: center;
 
-	img {
-		max-height: 100%;
-		object-fit: contain;
-	}
-
 	h2 {
 		font-size: 2rem;
 		font-weight: bold;
@@ -47,10 +42,8 @@ const SequentialAdjacent = styled(SequentialItem)<{ $alignRight?: boolean }>`
 				margin-right: auto;
 			`};
 
-	height: 100%;
-
 	img {
-		max-height: 50%;
+		width: 10rem;
 	}
 `;
 
