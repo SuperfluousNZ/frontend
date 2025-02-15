@@ -9,10 +9,18 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useEffect, useState } from "react";
 
+const CarouselParent = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+`;
+
 const Carousel = styled.div`
 	overflow: hidden;
 	--slide-size: 20%;
 	--slide-spacing: 1rem;
+	--thumb-size: 2rem;
+	--thumb-spacing: 0.3rem;
 `;
 
 const CarouselContainer = styled.div`
@@ -30,7 +38,24 @@ const SlideContainer = styled.div<{ $scale: number }>`
 	transform: scale(${(props) => props.$scale});
 `;
 
+const ThumbContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 var(--thumb-size);
+	gap: 1rem;
+	margin-inline: var(--thumb-spacing);
+	max-width: 100%;
+	min-width: 0;
+`;
+
 const PosterContainer = styled.div``;
+
+const ThumbButton = styled.button`
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+`;
 
 interface SlideProps {
 	hyperlink: string;
@@ -50,6 +75,23 @@ const Slide = ({ title, hyperlink, scale }: SlideProps) => {
 	);
 };
 
+interface ThumbProps {
+	title: PreviewTitleDto;
+	onClick: () => void;
+}
+
+const Thumb = ({ title, onClick }: ThumbProps) => {
+	return (
+		<ThumbContainer>
+			<ThumbButton onClick={onClick} type="button">
+				<PosterContainer>
+					<MiniPoster src={title.smallPosterUrl} alt={title.name} />
+				</PosterContainer>
+			</ThumbButton>
+		</ThumbContainer>
+	);
+};
+
 interface CollectionCarouselProps {
 	collection: CollectionDto;
 	onSelectChange?: (Title: PreviewTitleDto) => void;
@@ -58,16 +100,25 @@ interface CollectionCarouselProps {
 const mainCarouselOptions: EmblaOptionsType = {
 	align: "center",
 	containScroll: false,
-	loop: false,
+};
+
+const thumbCarouselOptions: EmblaOptionsType = {
+	align: "center",
+	containScroll: false,
+	dragFree: true,
 };
 
 export const CollectionCarousel = ({
 	collection,
 	onSelectChange = () => {},
 }: CollectionCarouselProps) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel(mainCarouselOptions, [
+	const [emblaMainRef, emblaMainApi] = useEmblaCarousel(mainCarouselOptions, [
 		WheelGesturesPlugin({ forceWheelAxis: "y" }),
 	]);
+	const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel(
+		thumbCarouselOptions,
+		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
+	);
 
 	const [_selectedIndex, setSelectedIndex] = useState(0);
 	const [scales, setScales] = useState<number[]>([]);
@@ -75,44 +126,70 @@ export const CollectionCarousel = ({
 	const titles = collection.titles;
 
 	const calculateScales = useCallback(() => {
-		if (!emblaApi) return;
+		if (!emblaMainApi) return;
 
-		const slides = emblaApi.slideNodes();
-		const scrollProgress = emblaApi.scrollProgress();
+		const slides = emblaMainApi.slideNodes();
+		const scrollProgress = emblaMainApi.scrollProgress();
 
 		const newScales = slides.map((_, index) => {
-			const snapPoint = emblaApi.scrollSnapList()[index];
+			const snapPoint = emblaMainApi.scrollSnapList()[index];
 			const distance = Math.abs(scrollProgress - snapPoint);
 			return Math.max(0.8, 1 - distance * 1.2);
 		});
 
 		setScales(newScales);
-	}, [emblaApi]);
+	}, [emblaMainApi]);
+
+	const onSelect = useCallback(() => {
+		if (!emblaMainApi || !emblaThumbsApi) return;
+		const index = emblaMainApi.selectedScrollSnap();
+		setSelectedIndex(index);
+		emblaThumbsApi.scrollTo(index);
+		onSelectChange(titles[index]);
+	}, [emblaMainApi, emblaThumbsApi, onSelectChange, titles]);
+
+	const onThumbClick = useCallback(
+		(index: number) => {
+			if (!emblaMainApi || !emblaThumbsApi) return;
+			emblaMainApi.scrollTo(index);
+		},
+		[emblaMainApi, emblaThumbsApi],
+	);
 
 	useEffect(() => {
-		if (!emblaApi) return;
+		if (!emblaMainApi || !emblaThumbsApi) return;
 
-		emblaApi.on("scroll", calculateScales);
-		emblaApi.on("select", () => {
-			setSelectedIndex(emblaApi.selectedScrollSnap());
-			onSelectChange(titles[emblaApi.selectedScrollSnap()]);
-		});
+		emblaMainApi.on("scroll", calculateScales);
+		emblaMainApi.on("select", onSelect).on("reInit", onSelect);
 
 		calculateScales();
-	}, [emblaApi, calculateScales, onSelectChange, titles]);
+	}, [emblaMainApi, emblaThumbsApi, calculateScales, onSelect]);
 
 	return (
-		<Carousel ref={emblaRef}>
-			<CarouselContainer>
-				{titles.map((title, index) => (
-					<Slide
-						hyperlink="title"
-						key={title.id}
-						scale={scales[index] || 1}
-						title={title}
-					/>
-				))}
-			</CarouselContainer>
-		</Carousel>
+		<CarouselParent>
+			<Carousel ref={emblaMainRef}>
+				<CarouselContainer>
+					{titles.map((title, index) => (
+						<Slide
+							hyperlink="title"
+							key={title.id}
+							scale={scales[index] || 1}
+							title={title}
+						/>
+					))}
+				</CarouselContainer>
+			</Carousel>
+			<Carousel ref={emblaThumbsRef}>
+				<CarouselContainer>
+					{titles.map((title, index) => (
+						<Thumb
+							key={title.id}
+							title={title}
+							onClick={() => onThumbClick(index)}
+						/>
+					))}
+				</CarouselContainer>
+			</Carousel>
+		</CarouselParent>
 	);
 };
