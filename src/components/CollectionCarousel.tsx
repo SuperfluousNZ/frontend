@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { MiniPoster } from "./title-page-components";
 
 import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useEffect, useState } from "react";
 
 const Carousel = styled.div`
@@ -57,11 +58,14 @@ export const CollectionCarousel = ({
 	collection,
 	onSelectChange = () => {},
 }: CollectionCarouselProps) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({
-		align: "center",
-		containScroll: false,
-		loop: false,
-	});
+	const [emblaRef, emblaApi] = useEmblaCarousel(
+		{
+			align: "center",
+			containScroll: false,
+			loop: false,
+		},
+		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
+	);
 
 	const [_selectedIndex, setSelectedIndex] = useState(0);
 	const [scales, setScales] = useState<number[]>([]);

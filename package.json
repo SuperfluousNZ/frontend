@@ -28,6 +28,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"embla-carousel-react": "^8.5.2",
+		"embla-carousel-wheel-gestures": "^8.0.1",
 		"next": "15.0.3",
 		"react": "19.0.0-rc-66855b96-20241106",
 		"react-dom": "19.0.0-rc-66855b96-20241106",
