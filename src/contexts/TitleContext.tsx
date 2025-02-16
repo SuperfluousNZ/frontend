@@ -80,8 +80,6 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 
 			const fetchedTitle = dummyCommonTitles[titleId];
 
-			console.log(fetchedTitle);
-
 			return fetchedTitle;
 		},
 		[],

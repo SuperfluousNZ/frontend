@@ -102,7 +102,16 @@ const Card: React.FC<CardProps> = ({ factoids }) => {
 	);
 };
 
-export default function Summary() {
+export default function SummaryPage({
+	titleId,
+	relatedId,
+}: {
+	titleId: number;
+	relatedId: number;
+}) {
+	console.log(titleId);
+	console.log(relatedId);
+
 	const {
 		title: selectedFilm,
 		setTitle,

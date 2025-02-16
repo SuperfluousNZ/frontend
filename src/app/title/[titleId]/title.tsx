@@ -72,8 +72,8 @@ function Buttons() {
 	);
 }
 
-export default function TitlePage({ id }: { id: number }) {
-	console.log(id);
+export default function TitlePage({ titleId }: { titleId: number }) {
+	console.log(titleId);
 
 	const [orderType, setOrderType] = useState<"sequential" | "relational">(
 		"relational",
