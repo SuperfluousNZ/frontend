@@ -10,7 +10,7 @@ import styled from "styled-components";
 const HeaderBox = styled.div`
 	align-items: center;
 	display: grid;
-	gap: 2em;
+	gap: 2rem;
 	grid-template-columns: auto 1fr auto;
 	justify-items: center;
 `;
