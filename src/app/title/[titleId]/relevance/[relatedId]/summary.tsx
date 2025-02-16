@@ -101,9 +101,6 @@ export default function SummaryPage({
 	titleId: number;
 	relatedId: number;
 }) {
-	console.log(titleId);
-	console.log(relatedId);
-
 	const {
 		title: selectedFilm,
 		setTitle,
@@ -114,10 +111,10 @@ export default function SummaryPage({
 	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
-		setTitle(1);
-		getFactoids(1).then(setFactoids);
-		getTitleById(2).then(setRequiredFilm);
-	}, [setTitle, getTitleById, getFactoids]);
+		setTitle(titleId);
+		getFactoids(titleId).then(setFactoids);
+		getTitleById(relatedId).then(setRequiredFilm);
+	}, [setTitle, getTitleById, getFactoids, titleId, relatedId]);
 	// TODO: group factoids by topic, make each card per topic
 
 	if (!requiredFilm) {
