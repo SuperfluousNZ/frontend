@@ -1,4 +1,5 @@
 import {
+	CollectionDto,
 	CommonTitleDto,
 	FactoidDto,
 	PreviewTitleDto,
@@ -140,5 +141,22 @@ export const dummyFactoids: { [id: number]: FactoidDto } = {
 		id: 5,
 		description: "Factoid 5",
 		topics: [],
+	},
+};
+
+export const dummyCollections: { [id: number]: CollectionDto } = {
+	1: {
+		id: 1,
+		isVerified: true,
+		name: "Marvel Cinematic Universe",
+		titles: [
+			dummyPreviewTitles[0],
+			dummyPreviewTitles[1],
+			dummyPreviewTitles[2],
+			dummyPreviewTitles[3],
+			dummyPreviewTitles[4],
+			dummyPreviewTitles[5],
+			dummyPreviewTitles[6],
+		],
 	},
 };

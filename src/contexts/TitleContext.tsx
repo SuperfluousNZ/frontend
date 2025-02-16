@@ -79,9 +79,6 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			// const title = (await response.json()) as CommonTitleDto;
 
 			const fetchedTitle = dummyCommonTitles[titleId];
-
-			console.log(fetchedTitle);
-
 			return fetchedTitle;
 		},
 		[],
