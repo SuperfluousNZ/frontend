@@ -63,11 +63,10 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	const setTitleById = useCallback<TitleContextType["setTitle"]>(
-		// biome-ignore lint/correctness/noUnusedVariables: TODO: implement
 		async (titleId: TitleDto["id"]) => {
 			// const response = await fetch(`/api/...`);
 			// const title = (await response.json()) as CommonTitleDto;
-			const title = dummyCommonTitles[5];
+			const title = dummyCommonTitles[titleId];
 			setTitle(title);
 		},
 		[],
@@ -93,7 +92,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 			}
 
 			if (relations === null) {
-				const fetchedRelations = dummyRelations[5];
+				const fetchedRelations = dummyRelations[title.id];
 				setRelations(fetchedRelations);
 				setSequences({});
 				return { ...title, order: "relational", relations: fetchedRelations };
@@ -111,7 +110,7 @@ export const TitleProvider = ({ children }: { children: React.ReactNode }) => {
 				fetchedSequences = dummySequences[titleId][orderId];
 			} else if (!fetchedSequences) {
 				if (!sequences[orderId]) {
-					fetchedSequences = dummySequences[5][orderId];
+					fetchedSequences = dummySequences[title.id][orderId];
 					setSequences((prev) => ({ ...prev, [orderId]: fetchedSequences }));
 				} else {
 					fetchedSequences = sequences[orderId];
