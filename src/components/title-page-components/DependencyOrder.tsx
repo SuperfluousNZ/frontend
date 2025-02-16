@@ -10,24 +10,21 @@ const DependencyOrderBlock = styled.div`
 	display: grid;
 	gap: 2rem;
 	grid-template-columns: 2fr 5fr;
-	height: 30rem;
-	max-width: 75rem;
-	width: 100%;
 `;
 
-const DependencyPoster = styled(Poster)`
-	justify-self: end;
-	max-height: 30rem;
+const PrimaryPoster = styled(Poster)`
 	max-width: 100%;
 `;
 
+const DependencyPoster = styled(Poster)`
+	width: 4.5rem;
+	border-radius: 0.5rem;
+`;
+
 const DependencyTabs = styled.div`
-	align-items: stretch;
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-	height: inherit;
-	justify-content: space-between;
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	row-gap: 1rem;
 `;
 
 const DependencyTabStyle = styled.div`
@@ -35,11 +32,8 @@ const DependencyTabStyle = styled.div`
 	border-radius: 1rem;
 	display: flex;
 	flex-direction: row;
-	flex: 1;
 	gap: 1rem;
-	height: 10rem;
-	overflow: hidden;
-	padding: 1rem;
+	padding: 0.75rem;
 	position: relative;
 
 	p {
@@ -50,12 +44,6 @@ const DependencyTabStyle = styled.div`
 		position: absolute;
 		right: 2rem;
 	}
-`;
-
-const DependencyTabPosterContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
 `;
 
 interface DependencyOrderProps {
@@ -71,15 +59,12 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
 			{titles.map((title) => (
-				<Poster
+				<DependencyPoster
 					key={title.id}
 					src={title.smallPosterUrl}
-					borderRadius="0.5rem"
 					alt={title.name}
 				/>
 			))}
-			{titles.length === 0 && <DependencyTabPosterContainer />}
-			{/* ^^ Spacer in case the list is empty */}
 			<p>{relevance}</p>
 		</DependencyTabStyle>
 	);
@@ -112,7 +97,7 @@ export const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 
 	return (
 		<DependencyOrderBlock>
-			<DependencyPoster
+			<PrimaryPoster
 				src={title.largePosterUrl}
 				alt={title.name}
 				borderRadius="1rem"

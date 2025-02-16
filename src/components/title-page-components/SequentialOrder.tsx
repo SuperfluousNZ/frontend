@@ -1,14 +1,21 @@
 import { SequentialOrderTitleDto } from "@/dtos";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Poster } from "../atomic";
+
+const PrimaryPoster = styled(Poster)`
+	width: 16rem;
+`;
+
+const AdjacentPoster = styled(Poster)`
+	width: 10rem;
+`;
 
 const SequentialOrderBlock = styled.div`
 	align-items: center;
 	display: flex;
 	flex-direction: row;
-	gap: 8rem;
-	height: 30rem;
-	max-width: 150rem;
+	gap: 1rem;
+	justify-content: space-evenly;
 `;
 
 const SequentialItem = styled.div`
@@ -16,8 +23,6 @@ const SequentialItem = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	height: 100%;
-	justify-content: center;
 
 	h2 {
 		font-size: 2rem;
@@ -32,21 +37,6 @@ const SequentialItem = styled.div`
 	}
 `;
 
-const SequentialAdjacent = styled(SequentialItem)<{ $alignRight?: boolean }>`
-	${({ $alignRight }) =>
-		$alignRight ?
-			css`
-				margin-left: auto;
-			`
-		:	css`
-				margin-right: auto;
-			`};
-
-	img {
-		width: 10rem;
-	}
-`;
-
 interface SequentialOrderProps {
 	title: SequentialOrderTitleDto;
 }
@@ -56,27 +46,25 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 
 	return (
 		<SequentialOrderBlock>
-			<SequentialAdjacent $alignRight={true}>
+			<SequentialItem>
 				{previous && (
 					<>
 						<h2>previous</h2>
-						<Poster src={previous.smallPosterUrl} alt={previous.name} />
+						<AdjacentPoster src={previous.smallPosterUrl} alt={previous.name} />
 						<h3>{previous.releasedAtUtc?.getFullYear()}</h3>
 					</>
 				)}
-			</SequentialAdjacent>
-			<SequentialItem>
-				<Poster src={title.largePosterUrl} alt={title.name} />
 			</SequentialItem>
-			<SequentialAdjacent $alignRight={false}>
+			<PrimaryPoster src={title.largePosterUrl} alt={title.name} />
+			<SequentialItem>
 				{next && (
 					<>
 						<h2>next</h2>
-						<Poster src={next.smallPosterUrl} alt={next.name} />
+						<AdjacentPoster src={next.smallPosterUrl} alt={next.name} />
 						<h3>{next.releasedAtUtc?.getFullYear()}</h3>
 					</>
 				)}
-			</SequentialAdjacent>
+			</SequentialItem>
 		</SequentialOrderBlock>
 	);
 };
