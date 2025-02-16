@@ -1,6 +1,6 @@
 "use client";
 
-import { MiniPoster } from "@/components/title-page-components";
+import { Poster } from "@/components/atomic";
 import { useTitleContext } from "@/contexts";
 import { CommonTitleDto, FactoidDto } from "@/dtos";
 import { useEffect, useState } from "react";
@@ -15,18 +15,15 @@ const PageContainer = styled.div`
 `;
 
 const HeaderBox = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 2fr 1fr;
-
-	gap: 1rem;
-	height: 10rem;
 	align-items: center;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 2fr 1fr;
+`;
 
-	img {
-		height: inherit;
-		width: auto;
-		justify-self: center;
-	}
+const StyledPoster = styled(Poster)<{ $rightAlign?: boolean }>`
+	width: 7rem;
+	${({ $rightAlign }) => $rightAlign && "justify-self: end"};
 `;
 
 const Description = styled.div`
@@ -95,7 +92,7 @@ const Card: React.FC<CardProps> = ({ factoids }) => {
 				))}
 			</FactoidContainer>
 			{/* <CardFooter>
-				<MiniPoster src={title.smallPosterUrl} alt={"Poster"} />
+				<Poster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
 					<FilmName>{title.name}</FilmName>{" "}
 					<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
@@ -129,7 +126,12 @@ export default function Summary() {
 	return (
 		<PageContainer>
 			<HeaderBox>
-				<MiniPoster src={requiredFilm.smallPosterUrl} alt={requiredFilm.name} />
+				<StyledPoster
+					src={requiredFilm.smallPosterUrl}
+					alt={requiredFilm.name}
+					$rightAlign={true}
+				/>
+
 				<Description>
 					What to know about <FilmName>{requiredFilm.name} </FilmName>
 					<FilmYear>
@@ -140,7 +142,11 @@ export default function Summary() {
 						({selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
 					</FilmYear>
 				</Description>
-				<MiniPoster src={selectedFilm.smallPosterUrl} alt={selectedFilm.name} />
+
+				<StyledPoster
+					src={selectedFilm.smallPosterUrl}
+					alt={selectedFilm.name}
+				/>
 			</HeaderBox>
 			<CardContainer>
 				{factoids.map((factoid) => (
