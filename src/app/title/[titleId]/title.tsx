@@ -3,6 +3,7 @@
 import styled from "styled-components";
 
 import { Button } from "@/components/atomic";
+import { PageLayout } from "@/components/layout";
 import {
 	DependencyOrder,
 	SequentialOrder,
@@ -12,14 +13,6 @@ import { DependencyOrderTitleDto, SequentialOrderTitleDto } from "@/dtos/title";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-
-const PageContainer = styled.div`
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-	margin-inline: 3rem;
-`;
 
 const TitleNameBlock = styled.div`
 	align-items: baseline;
@@ -103,7 +96,7 @@ export default function TitlePage({ titleId }: { titleId: number }) {
 	}, [orderType, getSequences, getRelations]);
 
 	return (
-		<PageContainer>
+		<PageLayout>
 			<TitleNameBlock>
 				<h1>{title.name}</h1>
 				<h2>{title.releasedAtUtc?.getFullYear()}</h2>
@@ -122,6 +115,6 @@ export default function TitlePage({ titleId }: { titleId: number }) {
 				<Buttons />
 				<Description>{title.description}</Description>
 			</DetailsBlock>
-		</PageContainer>
+		</PageLayout>
 	);
 }
