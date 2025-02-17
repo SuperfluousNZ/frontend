@@ -172,10 +172,44 @@ export const dummyRelations: { [id: number]: Relation[] } = {
 };
 
 export const dummySequences: { [id: number]: Record<number, Sequence> } = {
+	0: {
+		[-1]: {
+			next: dummyPreviewTitles[1],
+		},
+	},
+	1: {
+		[-1]: {
+			previous: dummyPreviewTitles[0],
+			next: dummyPreviewTitles[2],
+		},
+	},
+	2: {
+		[-1]: {
+			previous: dummyPreviewTitles[1],
+			next: dummyPreviewTitles[3],
+		},
+	},
+	3: {
+		[-1]: {
+			previous: dummyPreviewTitles[2],
+			next: dummyPreviewTitles[4],
+		},
+	},
+	4: {
+		[-1]: {
+			previous: dummyPreviewTitles[3],
+			next: dummyPreviewTitles[5],
+		},
+	},
 	5: {
 		[-1]: {
 			previous: dummyPreviewTitles[4],
 			next: dummyPreviewTitles[6],
+		},
+	},
+	6: {
+		[-1]: {
+			previous: dummyPreviewTitles[5],
 		},
 	},
 };
