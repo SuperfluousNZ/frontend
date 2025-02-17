@@ -1,24 +1,18 @@
 "use client";
 
 import { Poster } from "@/components/atomic";
+import { PageLayout } from "@/components/layout";
 import { useTitleContext } from "@/contexts";
 import { CommonTitleDto, FactoidDto } from "@/dtos";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const PageContainer = styled.div`
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-	margin-inline: 3rem;
-`;
-
 const HeaderBox = styled.div`
 	align-items: center;
 	display: grid;
-	gap: 1rem;
-	grid-template-columns: 1fr 2fr 1fr;
+	gap: 2rem;
+	grid-template-columns: auto 1fr auto;
+	justify-items: center;
 `;
 
 const StyledPoster = styled(Poster)<{ $rightAlign?: boolean }>`
@@ -69,8 +63,6 @@ const CardContainer = styled.div`
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: repeat(3, 1fr);
-	padding-inline: 10rem; // swap out at a later date when we implement global content width
-	width: 100%;
 `;
 
 const FactoidContainer = styled.div`
@@ -124,7 +116,7 @@ export default function Summary() {
 	}
 
 	return (
-		<PageContainer>
+		<PageLayout>
 			<HeaderBox>
 				<StyledPoster
 					src={requiredFilm.smallPosterUrl}
@@ -153,6 +145,6 @@ export default function Summary() {
 					<Card key={factoid.id} factoids={[factoid]} />
 				))}
 			</CardContainer>
-		</PageContainer>
+		</PageLayout>
 	);
 }
