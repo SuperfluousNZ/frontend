@@ -1,25 +1,18 @@
 "use client";
 
 import { Poster } from "@/components/atomic";
+import { PageLayout } from "@/components/layout";
 import { useTitleContext } from "@/contexts";
-import { CommonTitleDto, FactoidDto, PreviewTitleDto } from "@/dtos";
-import { dummyFactoids, dummyPreviewTitles } from "@/util/dummyData";
+import { CommonTitleDto, FactoidDto } from "@/dtos";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-const PageContainer = styled.div`
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-	margin-inline: 3rem;
-`;
 
 const HeaderBox = styled.div`
 	align-items: center;
 	display: grid;
-	gap: 1rem;
-	grid-template-columns: 1fr 2fr 1fr;
+	gap: 2rem;
+	grid-template-columns: auto 1fr auto;
+	justify-items: center;
 `;
 
 const StyledPoster = styled(Poster)<{ $rightAlign?: boolean }>`
@@ -53,18 +46,18 @@ const CardStyle = styled.div`
 	padding: 1rem;
 `;
 
-const CardFooter = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 1rem;
-	max-height: 5rem;
-	max-width: 100%;
+// const CardFooter = styled.div`
+// 	display: flex;
+// 	flex-direction: row;
+// 	gap: 1rem;
+// 	max-height: 5rem;
+// 	max-width: 100%;
 
-	img {
-		height: inherit;
-		width: 1rem;
-	}
-`;
+// 	img {
+// 		height: inherit;
+// 		width: 1rem;
+// 	}
+// `;
 
 const CardContainer = styled.div`
 	display: grid;
@@ -79,11 +72,10 @@ const FactoidContainer = styled.div`
 `;
 
 interface CardProps {
-	title: PreviewTitleDto;
 	factoids: FactoidDto[];
 }
 
-const Card: React.FC<CardProps> = ({ title, factoids }) => {
+const Card: React.FC<CardProps> = ({ factoids }) => {
 	return (
 		<CardStyle>
 			<FactoidContainer>
@@ -91,42 +83,46 @@ const Card: React.FC<CardProps> = ({ title, factoids }) => {
 					<p key={factoid.id}>{factoid.description}</p>
 				))}
 			</FactoidContainer>
-			<CardFooter>
+			{/* <CardFooter>
 				<Poster src={title.smallPosterUrl} alt={"Poster"} />
 				<p>
 					<FilmName>{title.name}</FilmName>{" "}
 					<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
 				</p>
-			</CardFooter>
+			</CardFooter> */}
 		</CardStyle>
 	);
 };
 
-export default function Summary() {
+export default function SummaryPage({
+	titleId,
+	relatedId,
+}: {
+	titleId: number;
+	relatedId: number;
+}) {
 	const {
 		title: selectedFilm,
 		setTitle,
-		// getFactoids,
+		getFactoids,
 		getTitleById,
 	} = useTitleContext();
 	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
-	// const [factoids, setFactoids] = useState<Record<number, FactoidDto[]> | null>(
-	// 	null,
-	// );
+	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
-		setTitle(1);
-		// getFactoids(1).then(setFactoids);
-		getTitleById(2).then(setRequiredFilm);
-	}, [setTitle, getTitleById]);
-	// }, [setTitle, getTitleById, getFactoids]);
+		setTitle(titleId);
+		getFactoids(titleId).then(setFactoids);
+		getTitleById(relatedId).then(setRequiredFilm);
+	}, [setTitle, getTitleById, getFactoids, titleId, relatedId]);
+	// TODO: group factoids by topic, make each card per topic
 
 	if (!requiredFilm) {
 		return <div>Loading...</div>;
 	}
 
 	return (
-		<PageContainer>
+		<PageLayout>
 			<HeaderBox>
 				<StyledPoster
 					src={requiredFilm.smallPosterUrl}
@@ -151,16 +147,10 @@ export default function Summary() {
 				/>
 			</HeaderBox>
 			<CardContainer>
-				<Card
-					title={dummyPreviewTitles[1]}
-					factoids={[dummyFactoids[1], dummyFactoids[2]]}
-				/>
-				<Card
-					title={dummyPreviewTitles[2]}
-					factoids={[dummyFactoids[1], dummyFactoids[3]]}
-				/>
-				<Card title={dummyPreviewTitles[3]} factoids={[dummyFactoids[1]]} />
+				{factoids.map((factoid) => (
+					<Card key={factoid.id} factoids={[factoid]} />
+				))}
 			</CardContainer>
-		</PageContainer>
+		</PageLayout>
 	);
 }

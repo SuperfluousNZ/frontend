@@ -21,7 +21,7 @@ export default function Home() {
 				</ol>
 
 				<div className={styles.ctas}>
-					<a href="title" className={styles.secondary}>
+					<a href="title/123" className={styles.secondary}>
 						Title testing page
 					</a>
 					<a href="summary" className={styles.secondary}>
