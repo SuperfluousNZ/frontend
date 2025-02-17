@@ -30,20 +30,7 @@ export const Poster: React.FC<PosterProps> = ({
 		return null;
 	}
 
-	if (href) {
-		return (
-			<PosterLink href={href} rel="noreferrer">
-				<PosterStyle
-					className={className}
-					src={src}
-					alt={alt}
-					$borderRadius={borderRadius}
-				/>
-			</PosterLink>
-		);
-	}
-
-	return (
+	const posterHtml = (
 		<PosterStyle
 			className={className}
 			src={src}
@@ -51,4 +38,14 @@ export const Poster: React.FC<PosterProps> = ({
 			$borderRadius={borderRadius}
 		/>
 	);
+
+	if (href) {
+		return (
+			<PosterLink href={href} rel="noreferrer">
+				{posterHtml}
+			</PosterLink>
+		);
+	}
+
+	return posterHtml;
 };
