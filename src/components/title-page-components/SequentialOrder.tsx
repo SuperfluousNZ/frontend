@@ -50,7 +50,11 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 				{previous && (
 					<>
 						<h2>previous</h2>
-						<AdjacentPoster src={previous.smallPosterUrl} alt={previous.name} />
+						<AdjacentPoster
+							src={previous.smallPosterUrl}
+							alt={previous.name}
+							href={`./relevance/${previous.id}`}
+						/>
 						<h3>{previous.releasedAtUtc?.getFullYear()}</h3>
 					</>
 				)}
@@ -60,7 +64,11 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 				{next && (
 					<>
 						<h2>next</h2>
-						<AdjacentPoster src={next.smallPosterUrl} alt={next.name} />
+						<AdjacentPoster
+							src={next.smallPosterUrl}
+							alt={next.name}
+							href={`./relevance/${next.id}`}
+						/>
 						<h3>{next.releasedAtUtc?.getFullYear()}</h3>
 					</>
 				)}
