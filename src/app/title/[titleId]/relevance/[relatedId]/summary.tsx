@@ -128,6 +128,7 @@ export default function SummaryPage({
 					src={requiredFilm.smallPosterUrl}
 					alt={requiredFilm.name}
 					$rightAlign={true}
+					href={`/title/${requiredFilm.id}`}
 				/>
 
 				<Description>
@@ -144,6 +145,7 @@ export default function SummaryPage({
 				<StyledPoster
 					src={selectedFilm.smallPosterUrl}
 					alt={selectedFilm.name}
+					href={`/title/${selectedFilm.id}`}
 				/>
 			</HeaderBox>
 			<CardContainer>
