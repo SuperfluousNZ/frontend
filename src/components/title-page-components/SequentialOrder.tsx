@@ -54,7 +54,7 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 						<AdjacentPoster
 							src={previous.smallPosterUrl}
 							alt={previous.name}
-							href={`./relevance/${previous.id}`}
+							href={`${previous.id}`}
 						/>
 						<h3>{previous.releasedAtUtc?.getFullYear()}</h3>
 					</>
@@ -68,7 +68,7 @@ export const SequentialOrder: React.FC<SequentialOrderProps> = ({ title }) => {
 						<AdjacentPoster
 							src={next.smallPosterUrl}
 							alt={next.name}
-							href={`./relevance/${next.id}`}
+							href={`${next.id}`}
 						/>
 						<h3>{next.releasedAtUtc?.getFullYear()}</h3>
 					</>
