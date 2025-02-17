@@ -5,7 +5,11 @@ import { useCollectionContext } from "@/contexts";
 import { PreviewTitleDto } from "@/dtos";
 import { useEffect, useState } from "react";
 
-export default function Collection() {
+export default function CollectionPage({
+	collectionId,
+}: {
+	collectionId: number;
+}) {
 	const { collection, setCollection } = useCollectionContext();
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [selectedTitle, setSelectedTitle] = useState<PreviewTitleDto>(
@@ -13,8 +17,8 @@ export default function Collection() {
 	);
 
 	useEffect(() => {
-		setCollection(1); // just default for now
-	}, [setCollection]);
+		setCollection(collectionId);
+	}, [setCollection, collectionId]);
 
 	useEffect(() => {
 		setSelectedTitle(collection.titles[selectedIndex]);

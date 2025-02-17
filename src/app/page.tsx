@@ -27,7 +27,7 @@ export default function Home() {
 					<a href="title/5/relevance/2" className={styles.secondary}>
 						Summary testing page
 					</a>
-					<a href="collection" className={styles.secondary}>
+					<a href="collection/1" className={styles.secondary}>
 						Collection testing page
 					</a>
 				</div>

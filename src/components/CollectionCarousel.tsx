@@ -208,7 +208,7 @@ export const CollectionCarousel = ({
 				<CarouselContainer>
 					{titles.map((title, index) => (
 						<Slide
-							hyperlink="title"
+							hyperlink={`/title/${title.id}`}
 							key={title.id}
 							scale={scales[index] || 1}
 							title={title}
