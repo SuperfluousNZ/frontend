@@ -94,7 +94,13 @@ const Card: React.FC<CardProps> = ({ factoids }) => {
 	);
 };
 
-export default function Summary() {
+export default function SummaryPage({
+	titleId,
+	relatedId,
+}: {
+	titleId: number;
+	relatedId: number;
+}) {
 	const {
 		title: selectedFilm,
 		setTitle,
@@ -105,10 +111,10 @@ export default function Summary() {
 	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
-		setTitle(1);
-		getFactoids(1).then(setFactoids);
-		getTitleById(2).then(setRequiredFilm);
-	}, [setTitle, getTitleById, getFactoids]);
+		setTitle(titleId);
+		getFactoids(titleId).then(setFactoids);
+		getTitleById(relatedId).then(setRequiredFilm);
+	}, [setTitle, getTitleById, getFactoids, titleId, relatedId]);
 	// TODO: group factoids by topic, make each card per topic
 
 	if (!requiredFilm) {

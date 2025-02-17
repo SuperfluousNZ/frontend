@@ -65,7 +65,7 @@ function Buttons() {
 	);
 }
 
-export default function Title() {
+export default function TitlePage({ titleId }: { titleId: number }) {
 	const [orderType, setOrderType] = useState<"sequential" | "relational">(
 		"relational",
 	);
@@ -81,17 +81,17 @@ export default function Title() {
 		useState<DependencyOrderTitleDto | null>(null);
 
 	useEffect(() => {
-		setTitle(1);
-	}, [setTitle]);
+		setTitle(titleId);
 
-	useEffect(() => {
+		if (title.id === -1) return;
+
 		if (orderType === "sequential") {
 			getSequences().then(setSequentialTitle);
 			// pass an orderId into getSequences for a specific order, otherwise it defaults to -1 (release order)
 		} else if (orderType === "relational") {
 			getRelations().then(setRelationalTitle);
 		}
-	}, [orderType, getSequences, getRelations]);
+	}, [setTitle, title, titleId, orderType, getSequences, getRelations]);
 
 	return (
 		<PageLayout>
