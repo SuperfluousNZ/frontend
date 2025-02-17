@@ -66,6 +66,22 @@ export const dummyPreviewTitles: { [id: number]: PreviewTitleDto } = {
 };
 
 export const dummyCommonTitles: { [id: number]: CommonTitleDto } = {
+	0: {
+		...dummyPreviewTitles[0],
+		largePosterUrl:
+			"https://www.themoviedb.org/t/p/original/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+		description:
+			"After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
+		tmdbId: 1726,
+	},
+	1: {
+		...dummyPreviewTitles[1],
+		largePosterUrl:
+			"https://www.themoviedb.org/t/p/original/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg",
+		description:
+			"Scientist Bruce Banner scours the planet for an antidote to the unbridled force of rage within him: the Hulk. But when the military masterminds who dream of exploiting his powers force him back to civilization, he finds himself coming face to face with a new, deadly foe.",
+		tmdbId: 1724,
+	},
 	2: {
 		...dummyPreviewTitles[2],
 		largePosterUrl:
@@ -74,7 +90,22 @@ export const dummyCommonTitles: { [id: number]: CommonTitleDto } = {
 			"With the world now aware of his dual life as the armored superhero Iron Man, billionaire inventor Tony Stark faces pressure from the government, the press and the public to share his technology with the military. Unwilling to let go of his invention, Stark, with Pepper Potts and James 'Rhodey' Rhodes at his side, must forge new alliances – and confront powerful enemies.",
 		tmdbId: 10138,
 	},
-
+	3: {
+		...dummyPreviewTitles[3],
+		largePosterUrl:
+			"https://www.themoviedb.org/t/p/original/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+		description:
+			"Against his father Odin's will, The Mighty Thor - a powerful but arrogant warrior god - recklessly reignites an ancient war. Thor is cast down to Earth and forced to live among humans as punishment. Once here, Thor learns what it takes to be a true hero when the most dangerous villain of his world sends the darkest forces of Asgard to invade Earth.",
+		tmdbId: 10195,
+	},
+	4: {
+		...dummyPreviewTitles[4],
+		largePosterUrl:
+			"https://www.themoviedb.org/t/p/original/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+		description:
+			"During World War II, Steve Rogers is a sickly man from Brooklyn who's transformed into super-soldier Captain America to aid in the war effort. Rogers must stop the Red Skull – Adolf Hitler's ruthless head of weaponry, and the leader of an organization that intends to use a mysterious device of untold powers for world domination.",
+		tmdbId: 1771,
+	},
 	5: {
 		...dummyPreviewTitles[5],
 		largePosterUrl:
@@ -83,9 +114,32 @@ export const dummyCommonTitles: { [id: number]: CommonTitleDto } = {
 			"When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
 		tmdbId: 24428,
 	},
+	6: {
+		...dummyPreviewTitles[6],
+		largePosterUrl:
+			"https://www.themoviedb.org/t/p/original/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",
+		description:
+			"When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.",
+		tmdbId: 68721,
+	},
 };
 
 export const dummyRelations: { [id: number]: Relation[] } = {
+	0: [],
+	1: [],
+	2: [
+		{
+			title: dummyPreviewTitles[0],
+			relevance: "must",
+		},
+	],
+	3: [
+		{
+			title: dummyPreviewTitles[2],
+			relevance: "could",
+		},
+	],
+	4: [],
 	5: [
 		{
 			title: dummyPreviewTitles[1],
@@ -101,6 +155,16 @@ export const dummyRelations: { [id: number]: Relation[] } = {
 		},
 		{
 			title: dummyPreviewTitles[4],
+			relevance: "should",
+		},
+	],
+	6: [
+		{
+			title: dummyPreviewTitles[2],
+			relevance: "must",
+		},
+		{
+			title: dummyPreviewTitles[5],
 			relevance: "should",
 		},
 	],
