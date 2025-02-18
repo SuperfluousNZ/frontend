@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Poster } from "./atomic";
 
@@ -88,9 +89,9 @@ interface SlideProps {
 const Slide = ({ title, hyperlink, scale }: SlideProps) => {
 	return (
 		<SlideContainer $scale={scale}>
-			<a href={hyperlink}>
+			<Link href={hyperlink}>
 				<SlidePoster src={title.smallPosterUrl} alt={title.name} />
-			</a>
+			</Link>
 		</SlideContainer>
 	);
 };

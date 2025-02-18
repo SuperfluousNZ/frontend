@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 
 const PosterStyle = styled.img<{ $borderRadius?: string }>`
@@ -7,7 +8,7 @@ const PosterStyle = styled.img<{ $borderRadius?: string }>`
 	object-fit: contain;
 `;
 
-const PosterLink = styled.a`
+const PosterLink = styled(Link)`
 	display: block;
 `;
 
