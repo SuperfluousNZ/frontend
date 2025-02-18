@@ -7,7 +7,9 @@ import { PreviewTitleDto } from "@/dtos";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
-const CarouselContainer = styled.div`
+// This container is needed to extend the width to the edges of the screen, outside the PageLayout.
+// TODO: Update page layout to use grid.
+const CarouselContainer = styled.div` 
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
 `;
