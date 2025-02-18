@@ -68,9 +68,9 @@ const ThumbContainer = styled.div`
 	min-width: 0;
 `;
 
-const ThumbPoster = styled(StyledPoster)<{ selected: boolean }>`
+const ThumbPoster = styled(StyledPoster)<{ $selected: boolean }>`
 	border-radius: 0.5rem;
-	${({ selected }) => selected && "border: 1px solid #888;"}
+	${({ $selected }) => $selected && "border: 1px solid #888;"}
 `;
 
 const ThumbButton = styled.button`
@@ -109,7 +109,7 @@ const Thumb = ({ title, onClick, selected }: ThumbProps) => {
 				<ThumbPoster
 					src={title.smallPosterUrl}
 					alt={title.name}
-					selected={selected}
+					$selected={selected}
 				/>
 			</ThumbButton>
 		</ThumbContainer>
