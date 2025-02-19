@@ -146,9 +146,9 @@ export const CollectionCarousel = ({
 		[WheelGesturesPlugin({ forceWheelAxis: "y" })],
 	);
 
-	const [scales, setScales] = useState<number[]>([]);
-
 	const titles = collection.titles;
+
+	const [scales, setScales] = useState<number[]>(titles.map(() => 0.8));
 
 	const calculateScales = useCallback(() => {
 		if (!emblaMainApi) return;
