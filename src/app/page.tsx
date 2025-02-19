@@ -21,31 +21,14 @@ export default function Home() {
 				</ol>
 
 				<div className={styles.ctas}>
-					<a
-						className={styles.primary}
-						href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<Image
-							className={styles.logo}
-							src="/vercel.svg"
-							alt="Vercel logomark"
-							width={20}
-							height={20}
-						/>
-						Deploy now
-					</a>
-					<a
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={styles.secondary}
-					>
-						Read our docs
-					</a>
-					<a href="title/123" className={styles.secondary}>
+					<a href="title/5" className={styles.secondary}>
 						Title testing page
+					</a>
+					<a href="title/5/relevance/2" className={styles.secondary}>
+						Summary testing page
+					</a>
+					<a href="collection/1" className={styles.secondary}>
+						Collection testing page
 					</a>
 				</div>
 			</main>

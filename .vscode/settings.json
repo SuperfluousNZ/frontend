@@ -23,5 +23,5 @@
 		"**/out": true,
 		"pnpm-lock.yaml": true
 	},
-	"cSpell.words": ["tmdb"]
+	"cSpell.words": ["embla", "tmdb"]
 }
