@@ -3,6 +3,7 @@ import {
 	PreviewTitleDto,
 	RelationRelevance,
 } from "@/dtos";
+import { usePathname } from "next/navigation";
 import { styled } from "styled-components";
 import { Poster } from "../atomic";
 
@@ -53,9 +54,10 @@ interface DependencyOrderProps {
 interface DependencyTabProps {
 	titles: PreviewTitleDto[];
 	relevance: RelationRelevance;
+	currentPath: string;
 }
 
-function DependencyTab({ titles, relevance }: DependencyTabProps) {
+function DependencyTab({ titles, relevance, currentPath }: DependencyTabProps) {
 	return (
 		<DependencyTabStyle>
 			{titles.map((title) => (
@@ -63,6 +65,7 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 					key={title.id}
 					src={title.smallPosterUrl}
 					alt={title.name}
+					href={`${currentPath}/relevance/${title.id}`}
 				/>
 			))}
 			<p>{relevance}</p>
@@ -71,6 +74,8 @@ function DependencyTab({ titles, relevance }: DependencyTabProps) {
 }
 
 export const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
+	const currentPath = usePathname();
+
 	const relationsMap: Record<RelationRelevance, PreviewTitleDto[]> = {
 		must: [],
 		should: [],
@@ -103,9 +108,18 @@ export const DependencyOrder: React.FC<DependencyOrderProps> = ({ title }) => {
 				borderRadius="1rem"
 			/>
 			<DependencyTabs>
-				<DependencyTab titles={relationsMap.must} relevance="must" />
-				<DependencyTab titles={relationsMap.should} relevance="should" />
-				<DependencyTab titles={relationsMap.could} relevance="could" />
+				{[
+					{ titles: relationsMap.must, relevance: "must" },
+					{ titles: relationsMap.should, relevance: "should" },
+					{ titles: relationsMap.could, relevance: "could" },
+				].map((props) => (
+					<DependencyTab
+						key={props.relevance}
+						titles={props.titles}
+						relevance={props.relevance as RelationRelevance}
+						currentPath={currentPath}
+					/>
+				))}
 			</DependencyTabs>
 		</DependencyOrderBlock>
 	);

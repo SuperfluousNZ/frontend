@@ -1,4 +1,5 @@
 import {
+	CollectionDto,
 	CommonTitleDto,
 	FactoidDto,
 	PreviewTitleDto,
@@ -171,10 +172,44 @@ export const dummyRelations: { [id: number]: Relation[] } = {
 };
 
 export const dummySequences: { [id: number]: Record<number, Sequence> } = {
+	0: {
+		[-1]: {
+			next: dummyPreviewTitles[1],
+		},
+	},
+	1: {
+		[-1]: {
+			previous: dummyPreviewTitles[0],
+			next: dummyPreviewTitles[2],
+		},
+	},
+	2: {
+		[-1]: {
+			previous: dummyPreviewTitles[1],
+			next: dummyPreviewTitles[3],
+		},
+	},
+	3: {
+		[-1]: {
+			previous: dummyPreviewTitles[2],
+			next: dummyPreviewTitles[4],
+		},
+	},
+	4: {
+		[-1]: {
+			previous: dummyPreviewTitles[3],
+			next: dummyPreviewTitles[5],
+		},
+	},
 	5: {
 		[-1]: {
 			previous: dummyPreviewTitles[4],
 			next: dummyPreviewTitles[6],
+		},
+	},
+	6: {
+		[-1]: {
+			previous: dummyPreviewTitles[5],
 		},
 	},
 };
@@ -204,5 +239,22 @@ export const dummyFactoids: { [id: number]: FactoidDto } = {
 		id: 5,
 		description: "Factoid 5",
 		topics: [],
+	},
+};
+
+export const dummyCollections: { [id: number]: CollectionDto } = {
+	1: {
+		id: 1,
+		isVerified: true,
+		name: "Marvel Cinematic Universe",
+		titles: [
+			dummyPreviewTitles[0],
+			dummyPreviewTitles[1],
+			dummyPreviewTitles[2],
+			dummyPreviewTitles[3],
+			dummyPreviewTitles[4],
+			dummyPreviewTitles[5],
+			dummyPreviewTitles[6],
+		],
 	},
 };

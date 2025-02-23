@@ -71,6 +71,15 @@ const FactoidContainer = styled.div`
 	gap: 1rem;
 `;
 
+const FilmInfo: React.FC<{ title: CommonTitleDto }> = ({ title }) => {
+	return (
+		<>
+			<FilmName>{title.name}</FilmName>{" "}
+			<FilmYear>({title.releasedAtUtc?.getFullYear() || "XXXX"})</FilmYear>
+		</>
+	);
+};
+
 interface CardProps {
 	factoids: FactoidDto[];
 }
@@ -128,22 +137,18 @@ export default function SummaryPage({
 					src={requiredFilm.smallPosterUrl}
 					alt={requiredFilm.name}
 					$rightAlign={true}
+					href={`/title/${requiredFilm.id}`}
 				/>
 
 				<Description>
-					What to know about <FilmName>{requiredFilm.name} </FilmName>
-					<FilmYear>
-						({requiredFilm.releasedAtUtc?.getFullYear() || "XXXX"})
-					</FilmYear>{" "}
-					for <FilmName>{selectedFilm.name} </FilmName>
-					<FilmYear>
-						({selectedFilm.releasedAtUtc?.getFullYear() || "XXXX"})
-					</FilmYear>
+					What to know about <FilmInfo title={requiredFilm} /> for{" "}
+					<FilmInfo title={selectedFilm} />
 				</Description>
 
 				<StyledPoster
 					src={selectedFilm.smallPosterUrl}
 					alt={selectedFilm.name}
+					href={`/title/${selectedFilm.id}`}
 				/>
 			</HeaderBox>
 			<CardContainer>
