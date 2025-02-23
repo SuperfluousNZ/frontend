@@ -1,8 +1,9 @@
 "use client";
 
+import { fetchTitle } from "@/app/api";
+import { fetchFactoids } from "@/app/api/title";
 import { Poster } from "@/components/atomic";
 import { PageLayout } from "@/components/layout";
-import { useTitleContext } from "@/contexts";
 import { CommonTitleDto, FactoidDto } from "@/dtos";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -101,23 +102,23 @@ export default function SummaryPage({
 	titleId: number;
 	relatedId: number;
 }) {
-	const {
-		title: selectedFilm,
-		setTitle,
-		getFactoids,
-		getTitleById,
-	} = useTitleContext();
+	const [selectedFilm, setSelectedFilm] = useState<CommonTitleDto | null>(null);
 	const [requiredFilm, setRequiredFilm] = useState<CommonTitleDto | null>(null);
 	const [factoids, setFactoids] = useState<FactoidDto[]>([]);
 
 	useEffect(() => {
-		setTitle(titleId);
-		getFactoids(titleId).then(setFactoids);
-		getTitleById(relatedId).then(setRequiredFilm);
-	}, [setTitle, getTitleById, getFactoids, titleId, relatedId]);
+		const fetchData = async () => {
+			const selectedFilm = await fetchTitle(titleId);
+			setSelectedFilm(selectedFilm);
+			await fetchTitle(relatedId).then(setRequiredFilm);
+
+			await fetchFactoids(selectedFilm).then(setFactoids);
+		};
+		fetchData();
+	}, [titleId, relatedId]);
 	// TODO: group factoids by topic, make each card per topic
 
-	if (!requiredFilm) {
+	if (!selectedFilm || !requiredFilm) {
 		return <div>Loading...</div>;
 	}
 
