@@ -2,14 +2,18 @@
 
 import styled from "styled-components";
 
+import { fetchRelations, fetchSequences, fetchTitle } from "@/app/api";
 import { Button } from "@/components/atomic";
 import { PageLayout } from "@/components/layout";
 import {
 	DependencyOrder,
 	SequentialOrder,
 } from "@/components/title-page-components";
-import { useTitleContext } from "@/contexts";
-import { DependencyOrderTitleDto, SequentialOrderTitleDto } from "@/dtos/title";
+import {
+	CommonTitleDto,
+	DependencyOrderTitleDto,
+	SequentialOrderTitleDto,
+} from "@/dtos/title";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -74,24 +78,32 @@ export default function TitlePage({ titleId }: { titleId: number }) {
 		setOrderType(orderType === "sequential" ? "relational" : "sequential");
 	};
 
-	const { title, setTitle, getRelations, getSequences } = useTitleContext();
 	const [sequentialTitle, setSequentialTitle] =
 		useState<SequentialOrderTitleDto | null>(null);
 	const [relationalTitle, setRelationalTitle] =
 		useState<DependencyOrderTitleDto | null>(null);
 
+	const [title, setTitle] = useState<CommonTitleDto | null>(null);
+
 	useEffect(() => {
-		setTitle(titleId);
+		const fetchData = async () => {
+			const title = await fetchTitle(titleId);
+			setTitle(title);
+			if (!title || title.id === -1) return;
 
-		if (title.id === -1) return;
+			if (orderType === "sequential") {
+				fetchSequences(title).then(setSequentialTitle);
+				// pass an orderId into getSequences for a specific order, otherwise it defaults to -1 (release order)
+			} else if (orderType === "relational") {
+				fetchRelations(title).then(setRelationalTitle);
+			}
+		};
 
-		if (orderType === "sequential") {
-			getSequences().then(setSequentialTitle);
-			// pass an orderId into getSequences for a specific order, otherwise it defaults to -1 (release order)
-		} else if (orderType === "relational") {
-			getRelations().then(setRelationalTitle);
-		}
-	}, [setTitle, title, titleId, orderType, getSequences, getRelations]);
+		fetchData();
+	}, [titleId, orderType]);
+
+	// TODO: Replace with skeleton
+	if (!title) return null;
 
 	return (
 		<PageLayout>
