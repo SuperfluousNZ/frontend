@@ -3,11 +3,11 @@
 import { CollectionDto, PreviewTitleDto } from "@/dtos";
 import { styled } from "styled-components";
 
-import { EmblaOptionsType } from "embla-carousel";
+import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Poster } from "./atomic";
 
 const CarouselParent = styled.div`
@@ -29,7 +29,7 @@ const CarouselContainer = styled.div`
 	display: flex;
 `;
 
-const SlideContainer = styled.div<{ $scale: number }>`
+const SlideContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	flex: 0 0 var(--slide-size);
@@ -37,7 +37,6 @@ const SlideContainer = styled.div<{ $scale: number }>`
 	margin-inline: var(--slide-spacing);
 	max-width: 100%;
 	min-width: 0;
-	transform: scale(${(props) => props.$scale});
 `;
 
 const StyledPoster = styled(Poster)`
@@ -82,13 +81,12 @@ const ThumbButton = styled.button`
 
 interface SlideProps {
 	hyperlink: string;
-	scale: number;
 	title: PreviewTitleDto;
 }
 
-const Slide = ({ title, hyperlink, scale }: SlideProps) => {
+const Slide = ({ title, hyperlink }: SlideProps) => {
 	return (
-		<SlideContainer $scale={scale}>
+		<SlideContainer>
 			<Link href={hyperlink}>
 				<SlidePoster src={title.smallPosterUrl} alt={title.name} />
 			</Link>
@@ -147,23 +145,26 @@ export const CollectionCarousel = ({
 	);
 
 	const titles = collection.titles;
+	const slides = useRef<HTMLElement[]>([]);
 
-	const [scales, setScales] = useState<number[]>(titles.map(() => 0.8));
+	const setSlides = useCallback((emblaApi: EmblaCarouselType) => {
+		slides.current = emblaApi.slideNodes();
+	}, []);
 
-	const calculateScales = useCallback(() => {
-		if (!emblaMainApi) return;
-
-		const slides = emblaMainApi.slideNodes();
-		const scrollProgress = emblaMainApi.scrollProgress();
+	const calculateScales = useCallback((emblaApi: EmblaCarouselType) => {
+		const slides = emblaApi.slideNodes();
+		const scrollProgress = emblaApi.scrollProgress();
 
 		const newScales = slides.map((_, index) => {
-			const snapPoint = emblaMainApi.scrollSnapList()[index];
+			const snapPoint = emblaApi.scrollSnapList()[index];
 			const distance = Math.abs(scrollProgress - snapPoint);
 			return Math.max(0.8, 1 - distance * 1.2);
 		});
 
-		setScales(newScales);
-	}, [emblaMainApi]);
+		slides.forEach((slide, index) => {
+			slide.style.transform = `scale(${newScales[index]})`;
+		});
+	}, []);
 
 	const onSelect = useCallback(() => {
 		if (!emblaMainApi || !emblaThumbsApi) return;
@@ -188,13 +189,16 @@ export const CollectionCarousel = ({
 	useEffect(() => {
 		if (!emblaMainApi || !emblaThumbsApi) return;
 
+		setSlides(emblaMainApi);
+		calculateScales(emblaMainApi);
+
 		emblaMainApi
+			.on("reInit", setSlides)
+			.on("reInit", calculateScales)
 			.on("scroll", calculateScales)
 			.on("select", onSelect)
 			.on("reInit", onSelect);
-
-		calculateScales();
-	}, [emblaMainApi, emblaThumbsApi, calculateScales, onSelect]);
+	}, [emblaMainApi, emblaThumbsApi, calculateScales, onSelect, setSlides]);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Only runs once
 	useEffect(() => {
@@ -207,11 +211,10 @@ export const CollectionCarousel = ({
 		<CarouselParent>
 			<Carousel ref={emblaMainRef}>
 				<CarouselContainer>
-					{titles.map((title, index) => (
+					{titles.map((title) => (
 						<Slide
 							hyperlink={`/title/${title.id}`}
 							key={title.id}
-							scale={scales[index] || 1}
 							title={title}
 						/>
 					))}
