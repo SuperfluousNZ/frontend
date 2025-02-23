@@ -91,7 +91,11 @@ const Slide = ({ title, hyperlink }: SlideProps) => {
 	return (
 		<SlideContainer>
 			<Link href={hyperlink}>
-				<SlidePoster src={title.smallPosterUrl} alt={title.name} />
+				<SlidePoster
+					src={title.smallPosterUrl}
+					alt={title.name}
+					className="selectDisable"
+				/>
 			</Link>
 		</SlideContainer>
 	);
